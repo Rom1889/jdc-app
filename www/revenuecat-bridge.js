@@ -8,7 +8,7 @@
 (function(){
   // Clé API RevenueCat (publique, sûre à exposer côté client) — à remplacer
   // par ta vraie clé "Apple App Store" depuis le dashboard RevenueCat.
-  const REVENUECAT_API_KEY = "appl_IDatHLGMaBvrWmOogrdTRFiPdPL";
+  const REVENUECAT_API_KEY = "appl_REMPLACE_MOI";
 
   const isNative = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 
@@ -50,8 +50,12 @@
     const Purchases = await getPurchasesPlugin();
     if(!Purchases) throw new Error("Plugin Purchases indisponible");
     const pid = window.PackManager.productId(packId);
+    const { products } = await Purchases.getProducts({ productIdentifiers: [pid] });
+    if(!products || !products.length){
+      throw new Error(`Produit introuvable côté StoreKit : ${pid} (vérifie qu'il est "Ready to Submit" sur App Store Connect et synchronisé dans RevenueCat)`);
+    }
     const { customerInfo } = await Purchases.purchaseStoreProduct({
-      product: { identifier: pid }
+      product: products[0]
     });
     await syncFromCustomerInfo(customerInfo);
     return true;

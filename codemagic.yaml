@@ -32,6 +32,11 @@ workflows:
           npx cap sync ios
       - name: Récupérer le profil de provisioning et le certificat
         script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
           xcode-project use-profiles
       - name: Incrémenter le numéro de build
         script: |

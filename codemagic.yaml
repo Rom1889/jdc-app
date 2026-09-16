@@ -1,0 +1,53 @@
+workflows:
+  ios-capacitor:
+    name: Jeu de Couple - iOS (Capacitor)
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    integrations:
+      app_store_connect: codemagic_app_store_connect
+    environment:
+      groups:
+        - appstore_credentials
+      vars:
+        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
+        XCODE_SCHEME: "App"
+        BUNDLE_ID: "com.tonstudio.jeudecouple"
+      node: 20.11.1
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+    scripts:
+      - name: Installer les dépendances npm
+        script: |
+          npm install
+      - name: Ajouter/synchroniser la plateforme iOS
+        script: |
+          npx cap add ios
+          npx cap sync ios
+      - name: Récupérer le profil de provisioning et le certificat
+        script: |
+          xcode-project use-profiles
+      - name: Incrémenter le numéro de build
+        script: |
+          cd ios/App
+          agvtool new-version -all $(($BUILD_NUMBER))
+      - name: Build et archive
+        script: |
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - "Testeurs internes"

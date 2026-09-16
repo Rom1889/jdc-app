@@ -1,0 +1,8 @@
+{
+  "appId": "com.tonstudio.jeudecouple",
+  "appName": "Jeu de Couple",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "always"
+  }
+}

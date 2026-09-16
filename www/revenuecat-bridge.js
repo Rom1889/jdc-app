@@ -8,7 +8,7 @@
 (function(){
   // Clé API RevenueCat (publique, sûre à exposer côté client) — à remplacer
   // par ta vraie clé "Apple App Store" depuis le dashboard RevenueCat.
-  const REVENUECAT_API_KEY = "appl_REMPLACE_MOI";
+  const REVENUECAT_API_KEY = "appl_IDatHLGMaBvrWmOogrdTRFiPdPL";
 
   const isNative = () => !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
 

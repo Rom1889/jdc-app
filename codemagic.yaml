@@ -9,7 +9,7 @@ workflows:
       groups:
         - appstore_credentials
       vars:
-        XCODE_WORKSPACE: "ios/App/App.xcworkspace"
+        XCODE_PROJECT: "ios/App/App.xcodeproj"
         XCODE_SCHEME: "App"
         BUNDLE_ID: "com.tonstudio.jeudecouple"
       node: 22.11.0
@@ -40,7 +40,7 @@ workflows:
       - name: Build et archive
         script: |
           xcode-project build-ipa \
-            --workspace "$XCODE_WORKSPACE" \
+            --project "$XCODE_PROJECT" \
             --scheme "$XCODE_SCHEME"
     artifacts:
       - build/ios/ipa/*.ipa

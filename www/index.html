@@ -1019,7 +1019,8 @@ function renderShop(){
           toast("Achat confirmé !");
         }catch(e){
           console.error("[Achat] échec:", e);
-          toast(e && e.message && /cancel/i.test(e.message) ? "Achat annulé" : "Échec de l'achat — réessaie");
+          const detail = (e && (e.message || e.errorMessage || JSON.stringify(e))) || "erreur inconnue";
+          toast("Échec : " + detail.slice(0, 120), 8000);
           btn.textContent = original; btn.disabled = false;
           return;
         }
@@ -1162,7 +1163,7 @@ document.querySelectorAll("#catFilters button").forEach(b=>b.onclick=()=>{
   if($("gameScreen").style.display==="block") dealNext(true);
 });
 
-function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2200)}
+function toast(m,ms=2200){const t=$("toast");t.textContent=m;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),ms)}
 
 // --- Son : tic-tac des 10 dernières secondes + gong de fin, généré à la volée (pas de fichier audio à héberger) ---
 let audioCtx=null;

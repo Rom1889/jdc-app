@@ -29,7 +29,11 @@ workflows:
       - name: Ajouter/synchroniser la plateforme iOS
         script: |
           npx cap add ios
+          npx @capacitor/assets generate --ios
           npx cap sync ios
+      - name: Déclarer l'exemption de chiffrement (évite la question manuelle sur App Store Connect)
+        script: |
+          /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" ios/App/App/Info.plist
       - name: Récupérer le profil de provisioning et le certificat
         script: |
           keychain initialize

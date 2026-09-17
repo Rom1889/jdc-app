@@ -88,17 +88,42 @@
     }
   }
 
+  // --- Langue du contenu ---
+  // Le français est la source (Packs/<pack>.json). Une traduction vit dans Packs/<lang>/<pack>.json :
+  // même longueur, même ordre, chaque entrée = "texte traduit" ou {text:"..."} (vide → on garde le français).
+  let lang = "fr";
+  function setLang(l){ lang = l || "fr"; }
+  async function loadTranslation(packId){
+    if(lang==="fr") return null;
+    const meta = CATALOG[packId];
+    const url = meta.file.replace(/^Packs\//, `Packs/${lang}/`);
+    try{
+      const res = await fetch(url);
+      if(!res.ok) return null;
+      const tr = await res.json();
+      return Array.isArray(tr) ? tr : null;
+    }catch(e){ return null; }
+  }
+
   // --- Chargement des JSON et fusion dans le pool de défis ---
   const cache = {};
   async function loadPack(packId){
-    if (cache[packId]) return cache[packId];
+    const key = packId + "@" + lang;
+    if (cache[key]) return cache[key];
     const meta = CATALOG[packId];
     try{
       const res = await fetch(meta.file);
       if(!res.ok) throw new Error(`HTTP ${res.status} sur ${meta.file}`);
-      const data = await res.json();
+      let data = await res.json();
       if(!Array.isArray(data)) throw new Error(`JSON inattendu (pas un tableau) dans ${meta.file}`);
-      cache[packId] = data;
+      const tr = await loadTranslation(packId);
+      if(tr){
+        data = data.map((it,i)=>{
+          const t = tr[i]; const txt = (t && typeof t==="object") ? t.text : t;
+          return (typeof txt==="string" && txt.trim()) ? {...it, text: txt, lang} : it;
+        });
+      }
+      cache[key] = data;
       return data;
     }catch(e){
       console.error(`[PackManager] échec de chargement du pack "${packId}" (${meta.file}):`, e.message);
@@ -142,7 +167,7 @@
   }
 
   window.PackManager = {
-    CATALOG, productId, isPurchased, markPurchased, restorePurchases, resetPurchases,
+    CATALOG, productId, isPurchased, setLang, get lang(){ return lang; }, markPurchased, restorePurchases, resetPurchases,
     exportPurchaseCode, importPurchaseCode, previewPack,
     getUnlockedChallenges, getUnlockedLevelsData,
   };

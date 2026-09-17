@@ -851,6 +851,7 @@
 </div>
 <div class="toast" id="toast"></div>
 
+<script src="i18n.js"></script>
 <script src="packManager.js"></script>
 <script src="revenuecat-bridge.js"></script>
 <script>
@@ -1064,6 +1065,7 @@ const STRINGS = {
 };
 let currentLang = "fr";
 try{ currentLang = localStorage.getItem("jdc_lang") || "fr"; }catch(e){}
+if(window.PackManager) window.PackManager.setLang(currentLang);
 
 function t(key){
   return (STRINGS[currentLang] && STRINGS[currentLang][key]) || STRINGS.fr[key] || key;
@@ -1089,6 +1091,13 @@ function setLang(lang){
   currentLang = lang;
   try{ localStorage.setItem("jdc_lang", lang); }catch(e){}
   renderHomeTexts();
+  if(window.I18N) window.I18N.setLang(lang);
+  // Recharge le contenu des défis dans la langue choisie (Packs/<lang>/, repli sur le français)
+  if(window.PackManager){
+    window.PackManager.setLang(lang);
+    levelsDataReady = false;
+    refreshLevelsData().then(()=>{ if(typeof renderShop==="function") renderShop(); if(typeof updateSetupPreview==="function") updateSetupPreview(); }).catch(()=>{});
+  }
 }
 function openSettings(){ $("settingsOverlay").classList.add("show"); }
 function closeSettings(){ $("settingsOverlay").classList.remove("show"); }
@@ -1125,7 +1134,8 @@ function renderResume(){
   play.textContent = t("home_new_config");
   const lvlName = {1:"Connexion",2:"Tension",3:"Sensualité",4:"Stimulation",5:"Acte complet"}[p.startLevel||1] || "";
   const dur = p.challengeDuration ? (p.challengeDuration>=60 ? Math.round(p.challengeDuration/60)+" min" : p.challengeDuration+" s") : "";
-  $("resumeSummary").textContent = [ (p.names[1]||"Joueur 1")+" & "+(p.names[2]||"Joueur 2"), MODE_LABELS[p.mode||"duo"]||"Duo", "Niveau "+(p.startLevel||1)+(lvlName?" · "+lvlName:""), dur ].filter(Boolean).join(" · ");
+  const TT = window.T || (x=>x);
+  $("resumeSummary").textContent = [ (p.names[1]||TT("Joueur 1"))+" & "+(p.names[2]||TT("Joueur 2")), TT(MODE_LABELS[p.mode||"duo"]||"Duo"), TT("Niveau")+" "+(p.startLevel||1)+(lvlName?" · "+TT(lvlName):""), dur ].filter(Boolean).join(" · ");
 }
 const MODE_LABELS = {duo:"Duo",solo:"Solo",marathon:"Marathon",roulette:"Roulette",relais:"Relais",cachee:"Cachée",blitz:"Blitz"};
 function resumeGame(){
@@ -2580,6 +2590,8 @@ document.querySelectorAll(".mode-btn").forEach(btn=>{
 });
 
 $("timerStart").onclick=toggleSessionPause;
+
+if(window.I18N) window.I18N.setLang(currentLang);
 </script>
 </body>
 </html>

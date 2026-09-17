@@ -187,7 +187,6 @@
   add("Dénudé","Undressed","Entblößt","Desnudo");
   add("Vague","Wave","Welle","Ola");
   add("Pic","Peak","Höhepunkt","Pico");
-  add("Retour","Come-down","Rückkehr","Vuelta");
   add("Relancer · 8 pts","Redraw · 8 pts","Neu ziehen · 8 Pkt.","Volver a sacar · 8 pts");
   add("Ne pas brûler · 5 pts","Don't burn · 5 pts","Nicht verbrennen · 5 Pkt.","No quemar · 5 pts");
   add("Défi perso · 10 pts","Custom challenge · 10 pts","Eigene Aufgabe · 10 Pkt.","Reto personalizado · 10 pts");
@@ -273,7 +272,7 @@
     [/^⚠️ Aucun défi avec ces réglages au niveau (\d+).*$/, (m,l)=>({en:`⚠️ No challenge with these settings at level ${m[1]} — add accessories or change level`,de:`⚠️ Keine Aufgabe mit diesen Einstellungen auf Stufe ${m[1]} — mehr Accessoires wählen oder Stufe ändern`,es:`⚠️ Ningún reto con estos ajustes en el nivel ${m[1]} — añade accesorios o cambia de nivel`})[l]],
     [/^(\d+) défis$/, (m,l)=>({en:`${m[1]} challenges`,de:`${m[1]} Aufgaben`,es:`${m[1]} retos`})[l]],
     [/^(\d+) packs? · (\d+) accessoires? · (\d+) limites? · défi (.+) · partie (\d+) min$/, (m,l)=>({en:`${m[1]} pack${m[1]==="1"?"":"s"} · ${m[2]} accessor${m[2]==="1"?"y":"ies"} · ${m[3]} limit${m[3]==="1"?"":"s"} · challenge ${m[4]} · game ${m[5]} min`,de:`${m[1]} Pack${m[1]==="1"?"":"s"} · ${m[2]} Accessoire${m[2]==="1"?"":"s"} · ${m[3]} Grenze${m[3]==="1"?"":"n"} · Aufgabe ${m[4]} · Spiel ${m[5]} Min.`,es:`${m[1]} pack${m[1]==="1"?"":"s"} · ${m[2]} accesorio${m[2]==="1"?"":"s"} · ${m[3]} límite${m[3]==="1"?"":"s"} · reto ${m[4]} · partida ${m[5]} min`})[l]],
-    [/^Acte (.+)$/, (m,l,T)=>({en:`Act: ${T(m[1])}`,de:`Akt: ${T(m[1])}`,es:`Acto: ${T(m[1])}`})[l]],
+    [/^Acte (.+)$/, (m,l,T)=>{ const a = m[1]==="Retour" ? {en:"Come-down",de:"Rückkehr",es:"Vuelta"}[l] : T(m[1]); return {en:`Act: ${a}`,de:`Akt: ${a}`,es:`Acto: ${a}`}[l]; }],
     [/^Partie lancée · (.+)$/, (m,l,T)=>({en:`Game started · ${T(m[1])}`,de:`Spiel gestartet · ${T(m[1])}`,es:`Partida iniciada · ${T(m[1])}`})[l]],
     [/^Relais ! (.+) prend le relais$/, (m,l)=>({en:`Relay! ${m[1]} takes over`,de:`Staffel! ${m[1]} übernimmt`,es:`¡Relevo! ${m[1]} toma el relevo`})[l]],
     [/^Filtre : (.+)$/, (m,l,T)=>({en:`Filter: ${T(m[1])}`,de:`Filter: ${T(m[1])}`,es:`Filtro: ${T(m[1])}`})[l]],
@@ -313,6 +312,8 @@
   const origAttr = new WeakMap(); // élément → {attr: valeur FR}
   const ATTRS = ["placeholder","title","aria-label"];
   let muting = false;
+  const lastWritten = new WeakMap();   // nœud → dernière valeur écrite par nous (à ignorer dans l'observateur)
+  const lastWrittenAttr = new WeakMap();
   function normalizeWS(s){ return s.replace(/\s+/g," "); }
   function txNode(n){
     if(n.nodeType!==3) return;
@@ -322,7 +323,7 @@
     if(!orig.has(n)) orig.set(n, n.nodeValue);
     const src = orig.get(n);
     const out = lang==="fr" ? src : T(/\n/.test(src) ? normalizeWS(src) : src);
-    if(out!==n.nodeValue){ muting=true; n.nodeValue=out; muting=false; }
+    if(out!==n.nodeValue){ muting=true; n.nodeValue=out; lastWritten.set(n,out); muting=false; }
   }
   function txAttrs(el){
     if(el.nodeType!==1) return;
@@ -331,7 +332,7 @@
       let store = origAttr.get(el); if(!store){ store={}; origAttr.set(el,store); }
       if(!(a in store)) store[a]=el.getAttribute(a);
       const out = lang==="fr" ? store[a] : T(store[a]);
-      if(out!==el.getAttribute(a)){ muting=true; el.setAttribute(a,out); muting=false; }
+      if(out!==el.getAttribute(a)){ muting=true; el.setAttribute(a,out); let lw=lastWrittenAttr.get(el); if(!lw){ lw={}; lastWrittenAttr.set(el,lw); } lw[a]=out; muting=false; }
     });
   }
   function walk(root){
@@ -346,9 +347,16 @@
   const mo = new MutationObserver(muts=>{
     if(muting || lang==="fr") return;
     muts.forEach(m=>{
-      if(m.type==="characterData"){ orig.set(m.target, m.target.nodeValue); txNode(m.target); }
+      if(m.type==="characterData"){
+        if(lastWritten.get(m.target)===m.target.nodeValue) return; // notre propre écriture
+        orig.set(m.target, m.target.nodeValue); txNode(m.target);
+      }
       else if(m.type==="childList"){ m.addedNodes.forEach(n=>walk(n)); }
-      else if(m.type==="attributes"){ const st=origAttr.get(m.target); if(st){ st[m.attributeName]=m.target.getAttribute(m.attributeName); } txAttrs(m.target); }
+      else if(m.type==="attributes"){
+        const lw=lastWrittenAttr.get(m.target); const cur=m.target.getAttribute(m.attributeName);
+        if(lw && lw[m.attributeName]===cur) return; // notre propre écriture
+        const st=origAttr.get(m.target); if(st){ st[m.attributeName]=cur; } txAttrs(m.target);
+      }
     });
   });
   function setLang(l){

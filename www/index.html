@@ -229,7 +229,8 @@
   .flip-card.burn .flip-inner{transform:rotateY(180deg)}
   .flip-face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
   .need-badge{position:absolute;top:8px;right:8px;z-index:9;background:#152238;border:1px solid #3a5a8a;color:#a8d0ff;border-radius:10px;padding:3px 8px;font-size:.65rem;font-weight:700;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity .25s ease}
-  .flip-card.open .need-badge,.flip-card.burn .need-badge{opacity:0}
+  .photo-badge{position:absolute;top:8px;left:8px;z-index:9;background:#241a10;border:1px solid #8a5a3a;color:#ffcf9e;border-radius:10px;padding:3px 8px;font-size:.72rem;font-weight:700;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity .25s ease}
+  .flip-card.open .need-badge,.flip-card.burn .need-badge,.flip-card.open .photo-badge,.flip-card.burn .photo-badge{opacity:0}
   .flip-back{
     display:grid;place-items:center;
     border:1px solid #c45a7a;
@@ -1632,14 +1633,20 @@ function pickThree(list){
   const out=[];
   const bag=list.slice();
   const seen=new Set();
+  const accPool=bag.filter(c=>c.need); // cartes nécessitant un accessoire sélectionné
   for(let n=0;n<3 && bag.length;n++){
     let pick=null;
-    const diverse=bag.filter(c=>{
+    let diverse=bag.filter(c=>{
       const k=(c.cat||"")+"|"+(c.pack||"");
       if(seen.has(k) && bag.length>4) return false;
       if(out.some(o=>(o.text||"").slice(0,20)===(c.text||"").slice(0,20))) return false;
       return true;
     });
+    // Garantit qu'au moins 1 carte sur 3 nécessite un accessoire, si des accessoires ont été sélectionnés
+    if(n===0 && accPool.length){
+      const diverseAcc=diverse.filter(c=>c.need);
+      diverse=diverseAcc.length?diverseAcc:accPool;
+    }
     pick=pickWeighted(diverse.length?diverse:bag);
     if(!pick) break;
     out.push(pick);
@@ -1670,8 +1677,9 @@ function showChoice(list){
     list.map((c,i)=>{
       const preview=personalize(c.text, currentPlayer, c).replace(/\n/g," ");
       const accBadge = c.need ? `<span class="need-badge">${ACC_ICO[c.need]||"✨"} ${(allAccessories.find(a=>a.id===c.need)||{}).label||c.need}</span>` : "";
+      const photoBadge = (c.pack==="photo" || c.cat==="photo") ? `<span class="photo-badge">📷</span>` : "";
       return '<div class="flip-card" id="flip'+i+'" onclick="tapChoiceCard('+i+')">'+
-        accBadge+
+        accBadge+photoBadge+
         '<div class="flip-inner">'+
           '<div class="flip-face flip-back"><span class="sigil">♥</span><div class="shine"></div><button class="peek-btn" onclick="event.stopPropagation();peekCard('+i+')">Aperçu · 6 pts</button></div>'+
           '<div class="flip-face flip-front">'+preview+'<button class="play-this" onclick="event.stopPropagation();pickChoice('+i+')">On joue celle-là</button><div class="ember"><i class="flame"></i><i class="flame"></i><i class="flame"></i><i class="flame"></i></div></div>'+

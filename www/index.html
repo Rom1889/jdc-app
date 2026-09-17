@@ -1628,8 +1628,60 @@ function toyWordingEN(text){
     .replace(/(Take|take|Penetrate|penetrate|Enter|enter) (\{\{partner\}\}|\{\{l\}\})/g, "$1 $2 (fingers, a toy or the strap-on)")
     .replace(/(taking) (\{\{partner\}\}|\{\{l\}\})/g, "$1 $2 (fingers, a toy or the strap-on)");
 }
+// ---- Espagnol : {{il}}/{{lui}}=él/ella {{l}}=lo/la {{o}}/{{e}}=o/a {{le_sexe}}=el sexo {{le_point}}=el clítoris/el glande
+//      {{un_oral}}=un cunnilingus/una felación {{la_poitrine}}=los pechos/el pecho
+function genderizeES(text, g){
+  const F = g==="femme";
+  return text
+    .replace(/\{\{un_oral\}\}/g, F ? "un cunnilingus" : "una felación")
+    .replace(/\{\{le_point\}\}/g, F ? "el clítoris" : "el glande")
+    .replace(/\{\{le_sexe\}\}/g, "el sexo")
+    .replace(/\{\{la_poitrine\}\}/g, F ? "los pechos" : "el pecho")
+    .replace(/\{\{L\}\}/g, F ? "La" : "Lo")
+    .replace(/\{\{l\}\}/g, F ? "la" : "lo")
+    .replace(/\{\{lui\}\}/g, F ? "ella" : "él")
+    .replace(/\{\{Il\}\}/g, F ? "Ella" : "Él")
+    .replace(/\{\{il\}\}/g, F ? "ella" : "él")
+    .replace(/\{\{his\}\}|\{\{His\}\}/g, "su")
+    .replace(/\{\{o\}\}|\{\{e\}\}/g, F ? "a" : "o")
+    .replace(/\{\{assis\}\}/g, F ? "sentada" : "sentado")
+    .replace(/\{\{allonge\}\}/g, F ? "tumbada" : "tumbado")
+    .replace(/\{\{pris\}\}/g, F ? "penetrada" : "penetrado")
+    .replace(/\{\{nu\}\}/g, F ? "desnuda" : "desnudo")
+    .replace(/\bde el (sexo|clítoris|glande|pecho)/g, "del $1")
+    .replace(/\ba el (sexo|clítoris|glande|pecho)/g, "al $1");
+}
+function hasPenetrativeActES(text){
+  return /\b(penetra|penetras|penetrar|penetrando|penétra)(?:\{\{l\}\}| a \{\{partner\}\})/i.test(text);
+}
+function invertToReceiveES(text){
+  return text
+    .replace(/Mientras penetras a \{\{partner\}\}/g, "Mientras {{partner}} te penetra")
+    .replace(/mientras penetras a \{\{partner\}\}/g, "mientras {{partner}} te penetra")
+    .replace(/Sigue penetrando a \{\{partner\}\}/g, "Sigue dejando que {{partner}} te penetre")
+    .replace(/sigue penetrando a \{\{partner\}\}/g, "sigue dejando que {{partner}} te penetre")
+    .replace(/penetrando a \{\{partner\}\}/g, "siendo penetrada por {{partner}}")
+    .replace(/penetrándo\{\{l\}\}/g, "siendo penetrada por {{lui}}")
+    .replace(/vuelve a penetrar a \{\{partner\}\}/g, "deja que {{partner}} te penetre otra vez")
+    .replace(/Vuelve a penetrar a \{\{partner\}\}/g, "Deja que {{partner}} te penetre otra vez")
+    .replace(/penetrar a \{\{partner\}\}/g, "dejar que {{partner}} te penetre")
+    .replace(/penetrar\{\{l\}\}/g, "dejar que {{lui}} te penetre")
+    .replace(/Penetra a \{\{partner\}\}/g, "Deja que {{partner}} te penetre")
+    .replace(/penetra a \{\{partner\}\}/g, "deja que {{partner}} te penetre")
+    .replace(/Penétra\{\{l\}\}/g, "Deja que {{lui}} te penetre")
+    .replace(/penétra\{\{l\}\}/g, "deja que {{lui}} te penetre")
+    .replace(/penetras a \{\{partner\}\}/g, "{{partner}} te penetra")
+    .replace(/\{\{l\}\} penetras/g, "te penetra {{lui}}");
+}
+function toyWordingES(text){
+  return text
+    .replace(/(Penetra|penetra|penetrar|penetras|penetrando) a \{\{partner\}\}/g, "$1 a {{partner}} (con los dedos, un juguete o el arnés)")
+    .replace(/(Penétra|penétra|penetrar|penetrándo)\{\{l\}\}/g, "$1{{l}} (con los dedos, un juguete o el arnés)");
+}
 function genderize(text, g){
-  if(window.PackManager && window.PackManager.lang==="en") return genderizeEN(text, g);
+  const L = window.PackManager && window.PackManager.lang;
+  if(L==="en") return genderizeEN(text, g);
+  if(L==="es") return genderizeES(text, g);
   const F = g==="femme";
   return text
     .replace(/\{\{un_oral\}\}/g, F ? "un cunnilingus" : "une fellation")
@@ -1698,10 +1750,14 @@ function toyWording(text){
 function adaptActForActor(text, meG, pG){
   if(meG!=="femme") return text;
   if(settings.accessories && settings.accessories.harnais) return text;
-  const en = window.PackManager && window.PackManager.lang==="en";
-  if(en){
+  const L = window.PackManager && window.PackManager.lang;
+  if(L==="en"){
     if(!hasPenetrativeActEN(text)) return text;
     return pG==="homme" ? invertToReceiveEN(text) : toyWordingEN(text);
+  }
+  if(L==="es"){
+    if(!hasPenetrativeActES(text)) return text;
+    return pG==="homme" ? invertToReceiveES(text) : toyWordingES(text);
   }
   if(!hasPenetrativeAct(text)) return text;
   if(pG==="homme") return invertToReceive(text);
@@ -1711,7 +1767,7 @@ function explainMedia(text, ch){
   if(!ch || (ch.pack!=="photo" && ch.cat!=="photo")) return text;
   const st=srcText(ch);
   if(/^Vidéo :|^Photo :|^Video:|^Photo:/i.test(text) || /^Vidéo :|^Photo :/i.test(st)) return text;
-  if(/^(Filme|Photo)\b/i.test(st) || /^(Film|Photo|Take a photo|Start a)\b/i.test(text)) return text; // le défi explique déjà quoi filmer/photographier — pas besoin du préambule générique
+  if(/^(Filme|Photo)\b/i.test(st) || /^(Film|Photo|Take a photo|Start a|Graba|Foto|Haz una foto|Hazle una foto|Lanza)\b/i.test(text)) return text; // le défi explique déjà quoi filmer/photographier — pas besoin du préambule générique
   const film=/filme|vidéo|video|lance la vidéo/i.test(srcText(ch));
   const head=film
     ? "Vidéo : un de vous tient le téléphone. Les deux sont d'accord. Tu filmes sans couper. Cadre ce qui est décrit (visage seulement si le texte le dit).\n"
@@ -1725,7 +1781,7 @@ function personalize(text, playerId, ch){
   text = adaptActForActor(text, me.gender, p.gender);
   text = explainMedia(text, ch);
   return genderize(text, p.gender)
-    .replace(/\{\{un_oral_toi\}\}/g, (window.PackManager && window.PackManager.lang==="en") ? "head" : (Fme ? "un cunnilingus" : "une fellation"))
+    .replace(/\{\{un_oral_toi\}\}/g, (window.PackManager && window.PackManager.lang==="en") ? "head" : (window.PackManager && window.PackManager.lang==="es") ? (Fme ? "un cunnilingus" : "una felación") : (Fme ? "un cunnilingus" : "une fellation"))
     .replace(/\{\{partner\}\}/g, p.name)
     .replace(/\{\{time\}\}/g, formatTime(settings.challengeDuration));
 }

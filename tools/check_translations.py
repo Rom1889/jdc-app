@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Vérifie les traductions Packs/<lang>/<pack>.json : longueur, placeholders, textes vides."""
 import json, re, sys, glob, os
-ALLOWED = {"partner","time","il","Il","lui","l","L","his","His","e","le_sexe","le_point","un_oral","un_oral_toi","la_poitrine","assis","allonge","pris","nu"}
+ALLOWED = {"partner","time","il","Il","lui","l","L","his","His","e","o","le_sexe","le_point","un_oral","un_oral_toi","la_poitrine","assis","allonge","pris","nu"}
 root = os.path.join(os.path.dirname(__file__), "..", "www", "Packs")
 errors = 0
 for lang in ["en","de","es"]:

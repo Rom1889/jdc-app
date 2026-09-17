@@ -38,7 +38,8 @@
   .score-box{flex:1;background:var(--card);border-radius:14px;padding:11px;text-align:center;border:1px solid #2a1f32;cursor:pointer;transition:.2s}
   .score-box.active-player{border-color:var(--accent);box-shadow:0 0 18px rgba(232,62,140,.45);transform:scale(1.03)}
   .score-box .name{font-size:.82rem;color:var(--muted)}.score-box .points{font-size:1.45rem;font-weight:700;color:var(--accent2)}
-  .mode-switch{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:12px}
+  .mode-switch{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:7px;margin-bottom:12px}
+  .mode-switch .mode-btn{width:100%}
   .mode-btn{padding:8px 13px;border-radius:20px;border:1px solid #3a2a45;background:var(--card);color:var(--text);cursor:pointer;font-size:.84rem}
   .mode-btn.active{background:var(--accent);border-color:transparent}
   .card{position:relative;min-height:200px;display:flex;flex-direction:column;align-items:center;text-align:center}
@@ -227,7 +228,8 @@
   .flip-card.open .flip-inner{transform:rotateY(180deg)}
   .flip-card.burn .flip-inner{transform:rotateY(180deg)}
   .flip-face{position:absolute;inset:0;border-radius:14px;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
-  .need-badge{position:absolute;top:8px;right:8px;z-index:9;background:#152238;border:1px solid #3a5a8a;color:#a8d0ff;border-radius:10px;padding:3px 8px;font-size:.65rem;font-weight:700;white-space:nowrap;pointer-events:none}
+  .need-badge{position:absolute;top:8px;right:8px;z-index:9;background:#152238;border:1px solid #3a5a8a;color:#a8d0ff;border-radius:10px;padding:3px 8px;font-size:.65rem;font-weight:700;white-space:nowrap;pointer-events:none;opacity:1;transition:opacity .25s ease}
+  .flip-card.open .need-badge,.flip-card.burn .need-badge{opacity:0}
   .flip-back{
     display:grid;place-items:center;
     border:1px solid #c45a7a;
@@ -370,9 +372,9 @@
   .step-dot.active .step-num{background:linear-gradient(135deg,#e83e8c,#c2185b);border-color:transparent;color:#fff}
   .step-dot.done .step-num{background:#2a4a38;border-color:#2a4a38;color:#7be0a8}
   .step-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
-  .setup-nav{display:flex;gap:10px;margin-top:6px}
+  .setup-nav{display:flex;gap:10px;margin-top:6px;align-items:stretch}
   .setup-nav .ghost-btn{flex:1}
-  .setup-nav .start-btn{flex:2}
+  .setup-nav .start-btn{flex:2;margin-top:0}
 
 </style>
 </head>
@@ -941,6 +943,9 @@ function setLang(lang){
 }
 function openSideMenu(){ $("sideMenuOverlay").classList.add("show"); }
 function closeSideMenu(){ $("sideMenuOverlay").classList.remove("show"); }
+$("sideMenuOverlay").addEventListener("click", function(e){
+  if(e.target === this) closeSideMenu();
+});
 function goToSetup(){
   closeSideMenu();
   $("homeScreen").style.display = "none";

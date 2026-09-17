@@ -470,6 +470,9 @@
   .game-top-l,.game-top-r{display:flex;gap:8px;align-items:center}
   .pill{display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:16px;font-size:.75rem;font-weight:700;white-space:nowrap}
   .pill.lvl{background:#2a1520;border:1px solid #5a2a40;color:#ffb3d0}
+  .lvl-ctl{display:flex;align-items:center;gap:4px}
+  .lvl-ctl button{width:34px;height:32px;border-radius:12px;border:1px solid #5a2a40;background:#2a1520;color:#ffb3d0;font-size:1.15rem;font-weight:700;line-height:1;cursor:pointer;font-family:inherit;padding:0}
+  .lvl-ctl .pill{border-radius:12px;padding:0 10px}
   .pill.mode{background:var(--card);border:1px solid #2a1f32;color:var(--muted);font-weight:600}
   #gameScreen .game-top .session-timer{background:transparent;padding:0;font-size:.95rem;font-weight:700;font-variant-numeric:tabular-nums}
   .player-line{display:flex;align-items:center;justify-content:space-between;padding:6px 4px 4px}
@@ -654,7 +657,11 @@
 <div id="gameScreen">
   <div class="game-top">
     <div class="game-top-l">
-      <span class="pill lvl" id="levelTimer">Niv. 1</span>
+      <div class="lvl-ctl">
+        <button onclick="prevLevel()" aria-label="Niveau moins">−</button>
+        <span class="pill lvl" id="levelTimer">Niv. 1</span>
+        <button onclick="nextLevel()" aria-label="Niveau plus">+</button>
+      </div>
       <span class="pill mode" id="modePill">Duo</span>
     </div>
     <div class="game-top-r">
@@ -1718,6 +1725,8 @@ function startChallengeTimer(){
     }
   },1000);
 }
+// Aftercare : décoché dans "Types de défis affichés" = plus jamais de carte aftercare imposée
+function aftercareEnabled(){ return !settings.packs || settings.packs.aftercare !== false; }
 function safeWord(){
   stopChallengeTimer();
   lastOutcome="rouge";
@@ -2470,7 +2479,7 @@ function completeChallenge(){
   const kind=classifyChallenge(lastChallenge);
   if(kind==="pic" || kind==="vague") heatStreak++;
   else heatStreak=0;
-  if(kind==="pic" && heatStreak>=2){ forceAftercare=1; heatStreak=0; toast("Deux défis intenses d'affilée — place à une carte plus calme (aftercare) 💗"); }
+  if(kind==="pic" && heatStreak>=2){ heatStreak=0; if(aftercareEnabled()){ forceAftercare=1; toast("Deux défis intenses d'affilée — place à une carte plus calme (aftercare) 💗"); } }
   afterTurn(1100);
 }
 function failChallenge(){

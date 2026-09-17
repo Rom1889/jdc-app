@@ -46,7 +46,7 @@
  },
  {
   "type": "Défi",
-  "text": "Danse habillés 30 secondes, ensuite un seul baiser.",
+  "text": "Mets une chanson. Dansez habillés 30 secondes, ensuite un seul baiser.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -208,7 +208,7 @@
  },
  {
   "type": "Défi",
-  "text": "À chaque « drop » ou refrain, un baiser plus appuyé.",
+  "text": "À chaque refrain (ou à chaque « drop » de la musique), un baiser plus appuyé.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -244,7 +244,7 @@
  },
  {
   "type": "Défi",
-  "text": "Fin au silence. Recouvre {{partner}}.",
+  "text": "Quand la musique s'arrête, le défi s'arrête aussi. Recouvre {{partner}} d'un vêtement ou d'une couverture.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -523,7 +523,7 @@
  },
  {
   "type": "Défi",
-  "text": "Refrain plus franc, couplet plus lent.",
+  "text": "Suis la musique : plus franc sur le refrain, plus lent sur le couplet.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -541,7 +541,7 @@
  },
  {
   "type": "Défi",
-  "text": "Coupe : tu te retires. Play : tu reprends.",
+  "text": "Mets la musique en pause : tu te retires. Relance-la : tu reprends. {{partner}} contrôle la musique.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -550,7 +550,7 @@
  },
  {
   "type": "Défi",
-  "text": "Batterie = tes hanches. Chant = tes mains.",
+  "text": "Suis la musique : la batterie donne le rythme de tes hanches, le chant celui de tes mains.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -757,7 +757,7 @@
  },
  {
   "type": "Défi",
-  "text": "Silence final 10 secondes les yeux dans les yeux.",
+  "text": "Quand la chanson se termine : 10 secondes de silence, les yeux dans les yeux, sans bouger.",
   "need": "musique",
   "partner": null,
   "cat": "sensuel",
@@ -775,7 +775,7 @@
  },
  {
   "type": "Défi",
-  "text": "Couverture comme contrainte : moins d'espace, rythme court.",
+  "text": "Restez sous la couverture, qui limite l'espace : mouvements courts, rythme serré.",
   "need": "couverture",
   "partner": null,
   "cat": "sensuel",

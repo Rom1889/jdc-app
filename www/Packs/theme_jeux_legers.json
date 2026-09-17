@@ -829,7 +829,7 @@
  },
  {
   "type": "Défi",
-  "text": "Guide la tête de {{partner}} vers toi (sans forcer) pour une bouche sur toi 20 secondes.",
+  "text": "Collier : guide la tête de {{partner}} vers toi (sans forcer) pour une bouche sur toi 20 secondes.",
   "need": "collar",
   "partner": null,
   "cat": "domination",
@@ -1306,7 +1306,7 @@
  },
  {
   "type": "Défi",
-  "text": "Menottes. Bord de jouir 3 fois, menottes toujours fermées.",
+  "text": "Menottes. Amène {{partner}} juste avant de jouir 3 fois, menottes toujours fermées.",
   "need": "menottes",
   "partner": null,
   "cat": "domination",
@@ -1360,7 +1360,7 @@
  },
  {
   "type": "Défi",
-  "text": "Sextoy au bord de faire jouir, tu l'enlèves, tu prends.",
+  "text": "Sextoy jusqu'à juste avant de jouir, tu l'enlèves, tu prends.",
   "need": "sextoy",
   "partner": null,
   "cat": "sensuel",
@@ -1369,7 +1369,7 @@
  },
  {
   "type": "Défi",
-  "text": "Deux intensités seulement : off ou min. Pendant que tu prends.",
+  "text": "Sextoy : deux intensités seulement, éteint ou minimum, pendant que tu prends.",
   "need": "sextoy",
   "partner": null,
   "cat": "sensuel",
@@ -1441,7 +1441,7 @@
  },
  {
   "type": "Défi",
-  "text": "Après l'acte : enlève en premier, avant tout le reste.",
+  "text": "Après l'acte : enlève le collier en premier, avant tout le reste.",
   "need": "collar",
   "partner": null,
   "cat": "domination",
@@ -1450,7 +1450,7 @@
  },
  {
   "type": "Défi",
-  "text": "Interdiction de s'en servir comme poignée pour aller plus fort.",
+  "text": "Collier : interdiction de s'en servir comme poignée pour aller plus fort.",
   "need": "collar",
   "partner": null,
   "cat": "domination",

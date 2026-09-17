@@ -28,7 +28,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « quelle zone te fait le plus fondre ? »\\nEnsuite embrasse exactement cet endroit pendant {{time}}.",
+  "text": "Demande à {{partner}} : « quelle zone te fait le plus fondre ? »\nEnsuite embrasse exactement cet endroit pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -37,7 +37,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « baisers lents ou baisers affamés ? »\\nEnsuite embrasse-{{l}} dans le style choisi pendant {{time}}.",
+  "text": "Demande à {{partner}} : « baisers lents ou baisers affamés ? »\nEnsuite embrasse-{{l}} dans le style choisi pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -46,7 +46,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} où sa peau est la plus sensible.\\nCaresse cet endroit 30 secondes, puis embrasse-le aussi.",
+  "text": "Demande à {{partner}} où sa peau est la plus sensible.\nCaresse cet endroit 30 secondes, puis embrasse-le aussi.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -55,7 +55,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} son baiser préféré du moment.\\nReproduis-le trois fois.",
+  "text": "Demande à {{partner}} son baiser préféré du moment.\nReproduis-le trois fois.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -64,7 +64,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « tu préfères que je te déshabille, ou te regarder le faire ? »\\nEnsuite fais ce qui a été choisi.",
+  "text": "Demande à {{partner}} : « tu préfères que je te déshabille, ou te regarder le faire ? »\nEnsuite fais ce qui a été choisi.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -73,7 +73,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} quelle partie encore habillée tu dois découvrir.\\nDécouvre-la et embrasse-la pendant {{time}}.",
+  "text": "Demande à {{partner}} quelle partie encore habillée tu dois découvrir.\nDécouvre-la et embrasse-la pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -82,7 +82,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} quel vêtement doit partir en premier.\\nEnlève seulement celui-là, puis embrasse la peau découverte.",
+  "text": "Demande à {{partner}} quel vêtement doit partir en premier.\nEnlève seulement celui-là, puis embrasse la peau découverte.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -172,7 +172,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « contre le mur ou allongé{{e}} ? »\\nEmbrasse-{{l}} dans cette position pendant {{time}}.",
+  "text": "Demande à {{partner}} : « contre le mur ou allongé{{e}} ? »\nEmbrasse-{{l}} dans cette position pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -271,7 +271,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « langue plate, pointe de langue, ou succion ? »\\nFais exactement ça pendant {{time}}.",
+  "text": "Demande à {{partner}} : « langue plate, pointe de langue, ou succion ? »\nFais exactement ça pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -280,7 +280,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « je vais plus vite ou plus lentement ? »\\nMasturbe-{{l}} dans ce rythme pendant {{time}}.",
+  "text": "Demande à {{partner}} : « je vais plus vite ou plus lentement ? »\nMasturbe-{{l}} dans ce rythme pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -289,7 +289,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « tu joues plus avec ma bouche ou avec ma main ? »\\nUtilise seulement cette technique pendant {{time}}.",
+  "text": "Demande à {{partner}} : « tu joues plus avec ma bouche ou avec ma main ? »\nUtilise seulement cette technique pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -298,7 +298,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « main, cuisse, ou ventre contre toi ? »\\nFais exactement ça pendant {{time}}, sans oral.",
+  "text": "Demande à {{partner}} : « main, cuisse, ou ventre contre toi ? »\nFais exactement ça pendant {{time}}, sans oral.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -307,7 +307,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} où {{il}} veut tes doigts.\\nReste uniquement là pendant {{time}}.",
+  "text": "Demande à {{partner}} où {{il}} veut tes doigts.\nReste uniquement là pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -316,7 +316,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande : « plus de pression ou plus de lenteur ? »\\nMasturbe {{partner}} uniquement comme ça.",
+  "text": "Demande : « plus de pression ou plus de lenteur ? »\nMasturbe {{partner}} uniquement comme ça.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -397,7 +397,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « doucement ou plus fort ? »\\nPrends-{{l}} exactement comme ça pendant {{time}}.",
+  "text": "Demande à {{partner}} : « doucement ou plus fort ? »\nPrends-{{l}} exactement comme ça pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -406,7 +406,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} quelle position vous n'avez pas encore faite ce soir.\\nInstallez-vous dans cette position pendant {{time}}.",
+  "text": "Demande à {{partner}} quelle position vous n'avez pas encore faite ce soir.\nInstallez-vous dans cette position pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -415,7 +415,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « je parle sale, ou on se tait ? »\\nPrends-{{l}} dans ce style.",
+  "text": "Demande à {{partner}} : « je parle sale, ou on se tait ? »\nPrends-{{l}} dans ce style.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -424,7 +424,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} s'il veut tes mains en plus.\\nSi oui, ajoute-les pendant que tu {{l}} prends.",
+  "text": "Demande à {{partner}} s'il veut tes mains en plus.\nSi oui, ajoute-les pendant que tu {{l}} prends.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -433,7 +433,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « plus profond ou plus rapide ? »\\nTu n'as le droit d'appliquer que le choix donné.",
+  "text": "Demande à {{partner}} : « plus profond ou plus rapide ? »\nTu n'as le droit d'appliquer que le choix donné.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -478,7 +478,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "{{partner}} dit un chiffre 1 à 5 : c'est l'amplitude, pas la vitesse.",
+  "text": "{{partner}} dit un chiffre de 1 à 5 : c'est l'amplitude de tes mouvements, pas la vitesse.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -514,7 +514,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} : « tu veux supplier, obéir, ou tout donner ? »\\nImpose ce rôle pendant {{time}}.",
+  "text": "Demande à {{partner}} : « tu veux supplier, obéir, ou tout donner ? »\nImpose ce rôle pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -523,7 +523,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "{{partner}} choisit un mot : plus fort, plus lent, ou continue.\\nToi tu appliques ce mot pendant {{time}}.",
+  "text": "{{partner}} choisit un mot : plus fort, plus lent, ou continue.\nToi tu appliques ce mot pendant {{time}}.",
   "need": null,
   "partner": null,
   "cat": "qacte",
@@ -532,7 +532,7 @@
  },
  {
   "type": "Q+Acte",
-  "text": "Demande à {{partner}} le mot de la fin : plus fort, plus tendre, ou on s'arrête.\\nFais les 30 dernières secondes comme ça.",
+  "text": "Demande à {{partner}} le mot de la fin : plus fort, plus tendre, ou on s'arrête.\nFais les 30 dernières secondes comme ça.",
   "need": null,
   "partner": null,
   "cat": "qacte",

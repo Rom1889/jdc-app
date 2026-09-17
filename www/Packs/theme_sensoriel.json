@@ -19,7 +19,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte dans ta paume. Réchauffe, puis masse les mains de {{partner}}.",
+  "text": "Une goutte de lubrifiant dans ta paume. Réchauffe, puis masse les mains de {{partner}}.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -37,7 +37,7 @@
  },
  {
   "type": "Défi",
-  "text": "Micro-goutte derrière l'oreille de {{partner}}. Embrasse 20 secondes.",
+  "text": "Une micro-goutte de lubrifiant derrière l'oreille de {{partner}}. Embrasse 20 secondes.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -55,7 +55,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte sur tes lèvres. Embrasse {{partner}}.",
+  "text": "Une goutte de lubrifiant sur tes lèvres. Embrasse {{partner}}.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -64,7 +64,7 @@
  },
  {
   "type": "Défi",
-  "text": "Chacun une goutte. Massez-vous les poignets en même temps.",
+  "text": "Chacun une goutte de lubrifiant. Massez-vous les poignets en même temps.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -82,7 +82,7 @@
  },
  {
   "type": "Défi",
-  "text": "Demande où poser une seule goutte au-dessus de la ceinture. Fais uniquement ça.",
+  "text": "Demande à {{partner}} où poser une seule goutte de lubrifiant, au-dessus de la ceinture. Fais uniquement ça.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -298,7 +298,7 @@
  },
  {
   "type": "Défi",
-  "text": "Deux points sur les clavicules. Un puis l'autre.",
+  "text": "Deux points de miel ou de crème sur les clavicules. Lèche l'un, puis l'autre.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",
@@ -316,7 +316,7 @@
  },
  {
   "type": "Défi",
-  "text": "Interdiction d'en mettre dans les cheveux. Cou ou mains seulement.",
+  "text": "Miel ou crème : interdiction d'en mettre dans les cheveux. Cou ou mains seulement.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",
@@ -343,7 +343,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte sous le nombril de {{partner}}. Masse en cercle 30 secondes.",
+  "text": "Une goutte de lubrifiant sous le nombril de {{partner}}. Masse en cercle 30 secondes.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -370,7 +370,7 @@
  },
  {
   "type": "Défi",
-  "text": "Deux gouttes : une sur chaque hanche. Mains collées 20 secondes.",
+  "text": "Deux gouttes de lubrifiant, une sur chaque hanche. Mains posées dessus 20 secondes.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -388,7 +388,7 @@
  },
  {
   "type": "Défi",
-  "text": "Demande : ventre ou cuisse. Une goutte. Masse pendant {{time}}.",
+  "text": "Demande : ventre ou cuisse. Une goutte de lubrifiant. Masse pendant {{time}}.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -406,7 +406,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte le long de la ceinture, sans ouvrir.",
+  "text": "Une goutte de lubrifiant le long de la ceinture, sans l'ouvrir.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -613,7 +613,7 @@
  },
  {
   "type": "Défi",
-  "text": "Teste une goutte sur ton poignet. Ensuite une goutte dans le haut du dos de {{partner}}.",
+  "text": "Bougie : teste une goutte de cire sur ton poignet. Ensuite une goutte dans le haut du dos de {{partner}}.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -631,7 +631,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une ligne très courte (3 cm) dans le bas du dos, pas trop chaude.",
+  "text": "Bougie : une ligne de cire très courte (3 cm) dans le bas du dos, pas trop chaude.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -649,7 +649,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} choisit : épaule gauche ou droite. Une goutte.",
+  "text": "Bougie : {{partner}} choisit l'épaule gauche ou droite. Une goutte de cire.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -856,7 +856,7 @@
  },
  {
   "type": "Défi",
-  "text": "Étale autour de {{le_point}} 20 secondes, ensuite tu y vas.",
+  "text": "Étale du lubrifiant autour de {{le_point}} 20 secondes, ensuite tu y vas.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "oral",
@@ -1081,7 +1081,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte dans le bas du dos pendant que tu masturbes {{partner}}.",
+  "text": "Une goutte de cire dans le bas du dos pendant que tu masturbes {{partner}}.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -1108,7 +1108,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} dit « encore » ou « stop » avant chaque goutte.",
+  "text": "Bougie : {{partner}} dit « encore » ou « stop » avant chaque goutte de cire.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -1189,7 +1189,7 @@
  },
  {
   "type": "Défi",
-  "text": "Interdiction d'en mettre dans l'anus. Sexe / ventre / cuisses.",
+  "text": "Miel ou crème : interdiction d'en mettre dans l'anus. Sexe, ventre ou cuisses.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",
@@ -1270,7 +1270,7 @@
  },
  {
   "type": "Défi",
-  "text": "Un doigt contre l'anus de {{partner}} pendant que ta bouche s'occupe de {{le_sexe}}.",
+  "text": "Un doigt lubrifié contre l'anus de {{partner}} pendant que ta bouche s'occupe de {{le_sexe}}.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "oral",
@@ -1306,7 +1306,7 @@
  },
  {
   "type": "Défi",
-  "text": "Pendant que tu prends {{partner}}, ajoute une goutte sans tout retirer.",
+  "text": "Pendant que tu prends {{partner}}, ajoute une goutte de lubrifiant sans te retirer complètement.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -1324,7 +1324,7 @@
  },
  {
   "type": "Défi",
-  "text": "Couche généreuse. Prends {{partner}} très lentement.",
+  "text": "Couche généreuse de lubrifiant. Prends {{partner}} très lentement.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -1423,7 +1423,7 @@
  },
  {
   "type": "Défi",
-  "text": "Fin : 20 secondes collés, presque plus de mouvement.",
+  "text": "Fin de l'huile : 20 secondes collés, presque plus de mouvement.",
   "need": "huile",
   "partner": null,
   "cat": "sensuel",
@@ -1522,7 +1522,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte dans le dos, ensuite tu prends {{partner}}.",
+  "text": "Une goutte de cire dans le dos, ensuite tu prends {{partner}}.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -1540,7 +1540,7 @@
  },
  {
   "type": "Défi",
-  "text": "Pendant l'acte : 1 goutte max sur une épaule.",
+  "text": "Bougie pendant l'acte : 1 goutte de cire maximum, sur une épaule.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -1576,7 +1576,7 @@
  },
  {
   "type": "Défi",
-  "text": "Test sur toi à chaque nouvelle goutte, même si tu l'as déjà fait.",
+  "text": "Bougie : teste sur toi à chaque nouvelle goutte de cire, même si tu l'as déjà fait.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -1603,7 +1603,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une goutte sur une hanche à chaque pause de l'acte.",
+  "text": "Une goutte de miel ou de crème sur une hanche à chaque pause de l'acte.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",
@@ -1648,7 +1648,7 @@
  },
  {
   "type": "Défi",
-  "text": "Deux gouttes max pendant tout l'acte.",
+  "text": "Miel ou crème : deux gouttes maximum pendant tout l'acte.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",
@@ -1666,7 +1666,7 @@
  },
  {
   "type": "Défi",
-  "text": "Un doigt dans l'anus de {{partner}} pendant que tu {{l}} prends.",
+  "text": "Un doigt lubrifié dans l'anus de {{partner}} pendant que tu {{l}} prends.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -1702,7 +1702,7 @@
  },
  {
   "type": "Défi",
-  "text": "20 secondes beaucoup, 20 secondes sans en rajouter. 4 cycles.",
+  "text": "Lubrifiant : 20 secondes avec beaucoup, 20 secondes sans en rajouter. 4 cycles.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -1720,7 +1720,7 @@
  },
  {
   "type": "Défi",
-  "text": "Filet dans le bas du dos pendant que tu prends par-derrière.",
+  "text": "Un filet de lubrifiant dans le bas du dos pendant que tu prends par-derrière.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -1738,7 +1738,7 @@
  },
  {
   "type": "Défi",
-  "text": "Fin : encore une couche, 20 secondes très lentes.",
+  "text": "Fin : encore une couche de lubrifiant, 20 secondes très lentes.",
   "need": "lubrifiant",
   "partner": null,
   "cat": "sensuel",
@@ -1873,7 +1873,7 @@
  },
  {
   "type": "Défi",
-  "text": "Après un bord : 5 secondes de glace sur la cuisse.",
+  "text": "Après t'être arrêté juste avant de jouir : 5 secondes de glaçon sur la cuisse.",
   "need": "glace",
   "partner": null,
   "cat": "sensuel",
@@ -1963,7 +1963,7 @@
  },
  {
   "type": "Défi",
-  "text": "Toi seul décides où tombe la goutte (zones déjà testées). Ensuite tu prends.",
+  "text": "Bougie : toi seul décides où tombe la goutte de cire (zones déjà testées). Ensuite tu prends.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -2035,7 +2035,7 @@
  },
  {
   "type": "Défi",
-  "text": "Aprèscare : vérifier chaque trace, eau si besoin.",
+  "text": "Aftercare bougie : vérifiez chaque trace de cire ensemble, de l'eau si besoin.",
   "need": "bougie",
   "partner": null,
   "cat": "sensuel",
@@ -2071,7 +2071,7 @@
  },
  {
   "type": "Défi",
-  "text": "L'autre doit demander pour avoir une goutte.",
+  "text": "Miel ou crème : l'autre doit demander pour avoir une goutte.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",
@@ -2098,7 +2098,7 @@
  },
  {
   "type": "Défi",
-  "text": "Range le pot dès que tu commences à prendre.",
+  "text": "Range le pot de miel ou de crème dès que tu commences à prendre.",
   "need": "comestible",
   "partner": null,
   "cat": "sensuel",

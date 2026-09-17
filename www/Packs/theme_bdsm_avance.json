@@ -181,7 +181,7 @@
  },
  {
   "type": "Défi",
-  "text": "Chevilles un peu écartées. Masturbe {{partner}}.",
+  "text": "Sangle les chevilles de {{partner}}, un peu écartées. Masturbe-{{l}}.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -199,7 +199,7 @@
  },
  {
   "type": "Défi",
-  "text": "Un poignet + une cheville. Oral 30 secondes.",
+  "text": "Sangle un poignet et une cheville de {{partner}}. Oral 30 secondes.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -217,7 +217,7 @@
  },
  {
   "type": "Défi",
-  "text": "Vérifie épaules et doigts, puis oral jusqu'à la fin.",
+  "text": "Sangles en place : vérifie les épaules et les doigts de {{partner}} (pas de fourmillements), puis oral jusqu'à la fin.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -253,7 +253,7 @@
  },
  {
   "type": "Défi",
-  "text": "Uniquement la pointe, avec lubrifiant. Reste là 15 secondes. Sors.",
+  "text": "Plug : uniquement la pointe, avec du lubrifiant. Reste là 15 secondes, puis retire.",
   "need": "plug",
   "partner": null,
   "cat": "sensuel",
@@ -271,7 +271,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} décide : contre ou un tout petit peu dedans. Lubrifiant obligatoire.",
+  "text": "Plug : {{partner}} décide s'il reste contre ou s'il entre un tout petit peu. Lubrifiant obligatoire.",
   "need": "plug",
   "partner": null,
   "cat": "sensuel",
@@ -307,7 +307,7 @@
  },
  {
   "type": "Défi",
-  "text": "Si tightness / douleur : stop immédiat. Sinon 3 respirations avec la pointe.",
+  "text": "Plug : à la moindre sensation de serrement ou de douleur, stop immédiat. Sinon, 3 respirations avec la pointe en place.",
   "need": "plug",
   "partner": null,
   "cat": "sensuel",
@@ -316,7 +316,7 @@
  },
  {
   "type": "Défi",
-  "text": "Demande 2 fois « tu veux qu'il rentre ? ». Si non : reste dehors.",
+  "text": "Plug : demande 2 fois « tu veux qu'il rentre ? ». Si la réponse est non, il reste dehors.",
   "need": "plug",
   "partner": null,
   "cat": "sensuel",
@@ -343,7 +343,7 @@
  },
  {
   "type": "Défi",
-  "text": "Harnais. {{partner}} l'embrasse / le lèche 20 secondes. Pas d'entrée.",
+  "text": "Harnais posé sur toi. {{partner}} l'embrasse ou le lèche 20 secondes. Pas de pénétration.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -370,7 +370,7 @@
  },
  {
   "type": "Défi",
-  "text": "Démontre comment tu l'attaches. Ensuite oral.",
+  "text": "Montre à {{partner}} comment tu attaches le harnais. Ensuite oral.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -397,7 +397,7 @@
  },
  {
   "type": "Défi",
-  "text": "Demande qui le porte. Portez-le sans acte 1 minute.",
+  "text": "Demande qui porte le harnais. Portez-le 1 minute sans passer à l'acte.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -460,7 +460,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} décide : on le met ou on le laisse à côté.",
+  "text": "Cockring : {{partner}} décide si on le met ou si on le laisse à côté.",
   "need": "rings",
   "partner": null,
   "cat": "sensuel",
@@ -469,7 +469,7 @@
  },
  {
   "type": "Défi",
-  "text": "Vérifie la couleur de la peau après 30 secondes.",
+  "text": "Cockring en place : vérifie la couleur de la peau après 30 secondes. Si elle fonce, retire-le.",
   "need": "rings",
   "partner": null,
   "cat": "sensuel",
@@ -487,7 +487,7 @@
  },
  {
   "type": "Défi",
-  "text": "Interdiction de le laisser plus que le chrono.",
+  "text": "Cockring : interdiction de le garder plus longtemps que le chrono.",
   "need": "rings",
   "partner": null,
   "cat": "sensuel",
@@ -577,7 +577,7 @@
  },
  {
   "type": "Défi",
-  "text": "Interdiction de frapper le dos haut / les reins.",
+  "text": "Fouet : interdiction de frapper le haut du dos et les reins. Fesses et cuisses seulement.",
   "need": "fouet",
   "partner": null,
   "cat": "domination",
@@ -649,7 +649,7 @@
  },
  {
   "type": "Défi",
-  "text": "Test sur ton propre doigt d'abord. Ensuite rien sur {{partner}} si trop fort.",
+  "text": "Pinces : teste d'abord sur ton propre doigt. Si c'est trop fort, rien sur {{partner}}.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -667,7 +667,7 @@
  },
  {
   "type": "Défi",
-  "text": "Plat ventre, poignets vers le haut du lit. Tu prends par-derrière.",
+  "text": "{{partner}} à plat ventre, poignets sanglés vers le haut du lit. Tu prends par-derrière.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -676,7 +676,7 @@
  },
  {
   "type": "Défi",
-  "text": "Une main toujours près de la boucle pendant que tu prends.",
+  "text": "Sangles : garde toujours une main près de la boucle pendant que tu prends, pour pouvoir détacher vite.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -685,7 +685,7 @@
  },
  {
   "type": "Défi",
-  "text": "Demande « trop serré ? » une fois, puis continue de prendre.",
+  "text": "Sangles en place : demande « trop serré ? » une fois, puis continue de prendre.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -748,7 +748,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} respire 3 fois avant que tu pousses.",
+  "text": "Plug : {{partner}} respire 3 fois avant que tu pousses.",
   "need": "plug",
   "partner": null,
   "cat": "sensuel",
@@ -766,7 +766,7 @@
  },
  {
   "type": "Défi",
-  "text": "3 mouvements lents, 1 plus franc. Recommence.",
+  "text": "Avec le harnais : 3 mouvements lents, 1 plus franc. Recommence.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -793,7 +793,7 @@
  },
  {
   "type": "Défi",
-  "text": "Lubrifiant obligatoire avant d'entrer.",
+  "text": "Harnais : lubrifiant obligatoire avant d'entrer.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -802,7 +802,7 @@
  },
  {
   "type": "Défi",
-  "text": "Pendant l'acte, change d'angle une fois.",
+  "text": "Avec le harnais, pendant l'acte : change d'angle une fois.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -847,7 +847,7 @@
  },
  {
   "type": "Défi",
-  "text": "Si picotements : retire tout de suite.",
+  "text": "Cockring : au moindre picotement, retire-le tout de suite.",
   "need": "rings",
   "partner": null,
   "cat": "sensuel",
@@ -865,7 +865,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} dit si c'est trop serré. Tu obéis.",
+  "text": "Cockring : {{partner}} dit si c'est trop serré. Tu obéis.",
   "need": "rings",
   "partner": null,
   "cat": "sensuel",
@@ -982,7 +982,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} peut les enlever à tout moment.",
+  "text": "Pinces : {{partner}} peut les enlever à tout moment.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -1000,7 +1000,7 @@
  },
  {
   "type": "Défi",
-  "text": "Après retrait : bouche douce sur la zone.",
+  "text": "Après avoir retiré les pinces : bouche douce sur la zone.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -1009,7 +1009,7 @@
  },
  {
   "type": "Défi",
-  "text": "Si picotements forts : enlevées, acte doux.",
+  "text": "Pinces : aux premiers picotements forts, tu les enlèves et vous passez à un acte doux.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -1018,7 +1018,7 @@
  },
  {
   "type": "Défi",
-  "text": "Fin : vérifier les tétons, câlin.",
+  "text": "Fin des pinces : vérifiez les tétons ensemble, puis câlin.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -1090,7 +1090,7 @@
  },
  {
   "type": "Défi",
-  "text": "Si bave / panique : enlève tout de suite.",
+  "text": "Bâillon : si {{partner}} bave beaucoup ou panique, enlève-le tout de suite.",
   "need": "baillon",
   "partner": null,
   "cat": "domination",
@@ -1162,7 +1162,7 @@
  },
  {
   "type": "Défi",
-  "text": "Poignets et une cheville. Prends {{partner}} pendant {{time}}.",
+  "text": "Sangle les poignets et une cheville de {{partner}}. Prends-{{l}} pendant {{time}}.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -1189,7 +1189,7 @@
  },
  {
   "type": "Défi",
-  "text": "Plat ventre. Une main sur la boucle, l'autre sur une hanche, tu prends.",
+  "text": "{{partner}} sanglé{{e}} à plat ventre. Une main sur la boucle, l'autre sur une hanche, tu prends.",
   "need": "restrain",
   "partner": null,
   "cat": "domination",
@@ -1243,7 +1243,7 @@
  },
  {
   "type": "Défi",
-  "text": "Interdiction d'enfoncer d'un coup. Toujours lent.",
+  "text": "Plug : interdiction de l'enfoncer d'un coup. Toujours lentement.",
   "need": "plug",
   "partner": null,
   "cat": "sensuel",
@@ -1270,7 +1270,7 @@
  },
  {
   "type": "Défi",
-  "text": "{{partner}} n'a pas le droit d'ajuster les sangles. Toi seul.",
+  "text": "Harnais : {{partner}} n'a pas le droit d'ajuster les sangles. Toi seul.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -1279,7 +1279,7 @@
  },
  {
   "type": "Défi",
-  "text": "Après 1 minute : demande si ça va, continue.",
+  "text": "Harnais : après 1 minute, demande si ça va, puis continue.",
   "need": "harnais",
   "partner": null,
   "cat": "sensuel",
@@ -1306,7 +1306,7 @@
  },
  {
   "type": "Défi",
-  "text": "Anneau + bord de jouir 2 fois puis retire.",
+  "text": "Cockring en place : amène {{partner}} juste avant de jouir 2 fois, puis retire l'anneau.",
   "need": "rings",
   "partner": null,
   "cat": "sensuel",
@@ -1450,7 +1450,7 @@
  },
  {
   "type": "Défi",
-  "text": "Tu décides du moment du retrait, sauf si {{partner}} dit stop.",
+  "text": "Pinces : tu décides du moment où tu les retires, sauf si {{partner}} dit stop.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -1468,7 +1468,7 @@
  },
  {
   "type": "Défi",
-  "text": "Jamais sur le sexe / les lèvres génitales.",
+  "text": "Pinces : jamais sur le sexe ni sur les lèvres génitales.",
   "need": "pinces",
   "partner": null,
   "cat": "domination",
@@ -1531,7 +1531,7 @@
  },
  {
   "type": "Défi",
-  "text": "Safe / tapes : bâillon enlevé avant tout le reste.",
+  "text": "Bâillon : au safe word ou si {{partner}} tape, tu enlèves le bâillon avant tout le reste.",
   "need": "baillon",
   "partner": null,
   "cat": "domination",

@@ -20,8 +20,9 @@ for lang in ["en","de","es"]:
             bad = ph - ALLOWED
             if bad: print(f"[{lang}/{name}#{i}] placeholder inconnu {bad}"); errors += 1
             for key in ("partner","time"):
-                if (("{{%s}}" % key) in a["text"]) != (("{{%s}}" % key) in t):
-                    print(f"[{lang}/{name}#{i}] {{{{{key}}}}} présent d'un côté seulement"); errors += 1
+                # un placeholder présent en FR doit l'être dans la traduction (l'inverse est toléré : on peut expliciter)
+                if (("{{%s}}" % key) in a["text"]) and not (("{{%s}}" % key) in t):
+                    print(f"[{lang}/{name}#{i}] {{{{{key}}}}} manquant dans la traduction"); errors += 1
             if t.count("{{") != t.count("}}"): print(f"[{lang}/{name}#{i}] accolades déséquilibrées"); errors += 1
         print(f"{lang}/{name}: {done}/{len(fr)} traduits")
 print("OK" if not errors else f"{errors} erreur(s)")

@@ -1586,6 +1586,7 @@ function genderizeEN(text, g){
     .replace(/\{\{l\}\}/g, F ? "her" : "him")
     .replace(/\{\{lui\}\}/g, F ? "her" : "him")
     .replace(/\{\{his\}\}/g, F ? "her" : "his")
+    .replace(/\{\{His\}\}/g, F ? "Her" : "His")
     .replace(/\{\{il\}\}/g, F ? "she" : "he")
     .replace(/\{\{Il\}\}/g, F ? "She" : "He")
     .replace(/\{\{e\}\}/g, "")

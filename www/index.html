@@ -347,6 +347,21 @@
   /* Parcours de setup en étapes */
   #setupScreen{position:relative}
   .shop-icon-btn{position:absolute;top:0;right:0;background:var(--card2);border:1px solid #3a2a45;border-radius:50%;width:42px;height:42px;font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+
+  #homeScreen{position:relative;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .home-hero{text-align:center;max-width:420px}
+  .home-hero-ico{font-size:3.4rem;margin-bottom:6px}
+  .home-hero h1{font-family:'Playfair Display',serif;font-size:2.6rem;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
+  .home-hero .subtitle{margin-bottom:36px}
+
+  #sideMenuOverlay{background:rgba(0,0,0,.6)}
+  .side-menu{background:var(--card);border-right:1px solid #2a1f32;width:min(300px,80vw);height:100vh;padding:24px 20px;display:flex;flex-direction:column;align-self:stretch}
+  .side-menu-item{display:flex;align-items:center;gap:10px;background:var(--card2);border:1px solid #3a2a45;border-radius:14px;padding:16px;margin-bottom:12px;font-size:1rem;font-weight:600;color:var(--text);text-align:left;cursor:pointer}
+  .side-menu-lang{margin-top:20px}
+  .side-menu-lang-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:8px;font-weight:700}
+  .lang-select{display:flex;gap:8px}
+  .lang-select button{flex:1;padding:10px 4px;border-radius:11px;border:1px solid #3a2a45;background:var(--card2);color:var(--muted);font-weight:700;cursor:pointer}
+  .lang-select button.active{background:linear-gradient(135deg,#e83e8c,#c2185b);border-color:transparent;color:#fff}
   .stepper{display:flex;justify-content:center;gap:22px;margin:6px 0 20px}
   .step-dot{display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.5}
   .step-dot.active{opacity:1}
@@ -362,7 +377,34 @@
 </style>
 </head>
 <body>
-<div id="setupScreen">
+<div id="homeScreen">
+  <button class="shop-icon-btn" id="btnOpenSideMenu" title="Menu" style="left:auto;right:auto;top:0;left:0">☰</button>
+  <div class="home-hero">
+    <div class="home-hero-ico">💞</div>
+    <h1 id="homeTitle">Jeu de Couple</h1>
+    <p class="subtitle" id="homeTagline">Retrouvez la complicité, à votre rythme</p>
+    <button class="start-btn" id="btnHomePlay" style="max-width:340px">Jouer</button>
+  </div>
+</div>
+
+<div class="overlay" id="sideMenuOverlay" style="justify-content:flex-start">
+  <div class="side-menu">
+    <button class="ghost-btn" id="btnCloseSideMenu" style="align-self:flex-end;margin-bottom:20px">✕</button>
+    <button class="side-menu-item" id="btnSideNewGame">🎲 <span id="menuNewGame">Nouvelle partie</span></button>
+    <button class="side-menu-item" id="btnSideRate">⭐ <span id="menuRate">Noter l'app</span></button>
+    <div class="side-menu-lang">
+      <div class="side-menu-lang-label" id="menuLangLabel">Langue</div>
+      <div class="lang-select" id="langSelect">
+        <button data-lang="fr">FR</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="de">DE</button>
+        <button data-lang="es">ES</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="setupScreen" style="display:none">
   <h1>Jeu de Couple</h1>
   <p class="subtitle">Packs • Limites • Roue • Chronos</p>
   <button class="shop-icon-btn" id="btnOpenShop" title="Boutique">🛍️</button>
@@ -853,6 +895,76 @@ function denyAgeGate(){
     <p style="line-height:1.5;margin:14px 0">Cette application est réservée aux personnes majeures (18 ans et plus). Merci de fermer cette page.</p>
   `;
 }
+
+// --- Écran d'accueil, menu latéral, langue ---
+// Product ID App Store — à remplacer par le vrai identifiant numérique une fois l'app publiée
+// (visible dans App Store Connect une fois la fiche créée, ex. id1234567890)
+const APP_STORE_ID = "0000000000";
+
+// Infrastructure multilingue : seul le français est rempli pour l'instant (par choix).
+// EN/DE/ES existent déjà en tant qu'objets prêts à être complétés plus tard —
+// tant qu'une clé n'y est pas traduite, t() retombe automatiquement sur le français.
+const STRINGS = {
+  fr: {
+    home_title: "Jeu de Couple",
+    home_tagline: "Retrouvez la complicité, à votre rythme",
+    home_play: "Jouer",
+    menu_new_game: "Nouvelle partie",
+    menu_rate: "Noter l'app",
+    menu_lang: "Langue",
+  },
+  en: {},
+  de: {},
+  es: {},
+};
+let currentLang = "fr";
+try{ currentLang = localStorage.getItem("jdc_lang") || "fr"; }catch(e){}
+
+function t(key){
+  return (STRINGS[currentLang] && STRINGS[currentLang][key]) || STRINGS.fr[key] || key;
+}
+function renderHomeTexts(){
+  $("homeTitle").textContent = t("home_title");
+  $("homeTagline").textContent = t("home_tagline");
+  $("btnHomePlay").textContent = t("home_play");
+  $("menuNewGame").textContent = t("menu_new_game");
+  $("menuRate").textContent = t("menu_rate");
+  $("menuLangLabel").textContent = t("menu_lang");
+  document.querySelectorAll("#langSelect button").forEach(b=>{
+    b.classList.toggle("active", b.dataset.lang===currentLang);
+  });
+}
+function setLang(lang){
+  currentLang = lang;
+  try{ localStorage.setItem("jdc_lang", lang); }catch(e){}
+  renderHomeTexts();
+}
+function openSideMenu(){ $("sideMenuOverlay").classList.add("show"); }
+function closeSideMenu(){ $("sideMenuOverlay").classList.remove("show"); }
+function goToSetup(){
+  closeSideMenu();
+  $("homeScreen").style.display = "none";
+  $("setupScreen").style.display = "";
+}
+function goToHome(){
+  $("setupScreen").style.display = "none";
+  $("homeScreen").style.display = "";
+}
+function openAppStoreReview(){
+  const url = `https://apps.apple.com/app/id${APP_STORE_ID}?action=write-review`;
+  window.open(url, "_system");
+}
+
+$("btnHomePlay").onclick = goToSetup;
+$("btnOpenSideMenu").onclick = openSideMenu;
+$("btnCloseSideMenu").onclick = closeSideMenu;
+$("btnSideNewGame").onclick = goToSetup;
+$("btnSideRate").onclick = openAppStoreReview;
+document.querySelectorAll("#langSelect button").forEach(b=>{
+  b.onclick = ()=> setLang(b.dataset.lang);
+});
+renderHomeTexts();
+
 let setupStep = 1;
 function renderSetupStep(){
   document.querySelectorAll(".setup-step").forEach(el=>{

@@ -144,6 +144,10 @@
   .preview-box{grid-column:1/-1;width:100%;margin-top:6px;padding:8px;background:#150f1a;border-radius:10px}
   .preview-box p{margin:4px 0;font-style:italic}
   .aftercare-note{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:14px;padding:9px 12px;background:var(--card2);border-radius:12px}
+  .mega-banner{text-align:center;padding:18px 16px;border-radius:16px;margin-bottom:16px;background:linear-gradient(135deg,#3a0f28,#5a1638 50%,#e83e8c);border:1px solid rgba(255,111,168,.5);box-shadow:0 8px 28px rgba(232,62,140,.35)}
+  .mega-banner-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:4px}
+  .mega-banner-sub{font-size:.8rem;color:#ffd0e4;margin-bottom:12px}
+  .mega-banner-btn{width:100%;padding:12px;font-size:.95rem;border-radius:14px}
   .shop-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:14px;background:var(--card2);border:1px solid #3a2a45;margin-bottom:8px}
   .shop-item.owned{border-color:#2a4a38}
   .shop-item.locked{border-color:#3a2a45}
@@ -961,6 +965,15 @@ function renderShop(){
   const anyOwned = Object.keys(CAT).some(id=>!CAT[id].free && window.PackManager.isPurchased(id));
   const themeIco = {theme_sensoriel:"💧",theme_ambiance:"🎵",theme_jeux_legers:"🙈",theme_bdsm_avance:"⛓️",theme_photo_video:"📷",theme_qacte:"💥",theme_exterieur:"🛋️"};
 
+  // --- Mégapack : bannière "tout débloquer" ---
+  const megaOwned = window.PackManager.isPurchased("megapack");
+  const megaBanner = megaOwned ? "" : `
+    <div class="mega-banner" data-pack-row="megapack">
+      <div class="mega-banner-title">🎁 Mégapack — Tout débloquer</div>
+      <div class="mega-banner-sub">${CAT.megapack.count} défis d'un coup — les 9 packs payants réunis</div>
+      <button class="btn-unlock mega-banner-btn" data-unlock="megapack">Tout débloquer</button>
+    </div>`;
+
   // --- Niveaux : bande compacte de 5 tuiles ---
   const levelIds = ["niveau_1","niveau_2","niveau_3","niveau_4","niveau_5"];
   const levelStrip = `<div class="level-strip">` + levelIds.map(id=>{
@@ -1005,6 +1018,7 @@ function renderShop(){
     </p>`;
 
   el.innerHTML =
+    megaBanner +
     `<div class="shop-section-label">Niveaux</div>` + levelStrip +
     `<div class="shop-section-label">Packs à thème</div>` + themeGrid +
     aftercareNote + restoreBox;

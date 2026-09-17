@@ -23,6 +23,7 @@
     theme_photo_video:  { free: false, file: "Packs/theme_photo_video.json",  count: 193 },
     theme_qacte:        { free: false, file: "Packs/theme_qacte.json",        count: 64  },
     theme_exterieur:    { free: false, file: "Packs/theme_exterieur.json",    count: 43  },
+    megapack:           { free: false, file: null, count: 1244, isBundle: true }, // débloque tous les packs payants d'un coup, ne charge pas de fichier propre
   };
 
   // Product ID StoreKit = BUNDLE_ID + "." + packId (doit matcher le .storekit / App Store Connect)
@@ -42,7 +43,9 @@
   function isPurchased(packId){
     const meta = CATALOG[packId];
     if (!meta) return false;
-    return meta.free || purchased.has(packId);
+    if (meta.free || purchased.has(packId)) return true;
+    if (!meta.isBundle && purchased.has("megapack")) return true; // le mégapack débloque tout le reste
+    return false;
   }
 
   // Appelé par le pont natif iOS (Capacitor/StoreKit) une fois l'achat validé côté serveur/Apple.
@@ -106,7 +109,7 @@
   // Retourne la liste complète des défis débloqués (gratuits + achetés),
   // au même format que l'ancien levelsData mais avec un champ .level et .packId
   async function getUnlockedChallenges(){
-    const ids = Object.keys(CATALOG).filter(isPurchased);
+    const ids = Object.keys(CATALOG).filter(id => isPurchased(id) && !CATALOG[id].isBundle);
     const chunks = await Promise.all(ids.map(async id => {
       const items = await loadPack(id);
       return items.map(it => ({...it, packId: id}));

@@ -120,7 +120,7 @@
       if(tr){
         data = data.map((it,i)=>{
           const t = tr[i]; const txt = (t && typeof t==="object") ? t.text : t;
-          return (typeof txt==="string" && txt.trim()) ? {...it, text: txt, lang} : it;
+          return (typeof txt==="string" && txt.trim()) ? {...it, text: txt, text_fr: it.text, lang} : it;
         });
       }
       cache[key] = data;

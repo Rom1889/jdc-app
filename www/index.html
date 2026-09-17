@@ -1573,7 +1573,62 @@ function toggleSound(){
 }
 function formatTime(s){return s>=60?Math.floor(s/60)+" min":s+" s"}
 function partnerOf(id){return id===1?2:1}
+// ---- Anglais : placeholders {{il}}=he/she {{lui}}={{l}}=him/her {{his}}=his/her {{le_sexe}}=pussy/cock
+//      {{le_point}}=clit/tip {{un_oral}}=head {{la_poitrine}}=breasts/chest ; accords ({{e}}, {{assis}}…) → neutres
+function genderizeEN(text, g){
+  const F = g==="femme";
+  return text
+    .replace(/\{\{un_oral\}\}/g, "head")
+    .replace(/\{\{le_point\}\}/g, F ? "the clit" : "the tip")
+    .replace(/\{\{le_sexe\}\}/g, F ? "pussy" : "cock")
+    .replace(/\{\{la_poitrine\}\}/g, F ? "breasts" : "chest")
+    .replace(/\{\{L\}\}/g, F ? "Her" : "Him")
+    .replace(/\{\{l\}\}/g, F ? "her" : "him")
+    .replace(/\{\{lui\}\}/g, F ? "her" : "him")
+    .replace(/\{\{his\}\}/g, F ? "her" : "his")
+    .replace(/\{\{il\}\}/g, F ? "she" : "he")
+    .replace(/\{\{Il\}\}/g, F ? "She" : "He")
+    .replace(/\{\{e\}\}/g, "")
+    .replace(/\{\{assis\}\}/g, "sitting")
+    .replace(/\{\{allonge\}\}/g, "lying down")
+    .replace(/\{\{pris\}\}/g, "taken")
+    .replace(/\{\{nu\}\}/g, "naked");
+}
+function hasPenetrativeActEN(text){
+  return /\b(take|takes|taking|penetrate|penetrating|enter|entering|fuck|fucking)[- ](\{\{partner\}\}|\{\{l\}\}|\{\{lui\}\})/i.test(text);
+}
+function invertToReceiveEN(text){
+  return text
+    .replace(/While you take \{\{partner\}\}/g, "While {{partner}} takes you")
+    .replace(/while you take \{\{partner\}\}/g, "while {{partner}} takes you")
+    .replace(/While you take \{\{l\}\}/g, "While {{partner}} takes you")
+    .replace(/while you take \{\{l\}\}/g, "while {{partner}} takes you")
+    .replace(/Keep taking \{\{partner\}\}/g, "Keep letting {{partner}} take you")
+    .replace(/keep taking \{\{partner\}\}/g, "keep letting {{partner}} take you")
+    .replace(/taking \{\{partner\}\}/g, "being taken by {{partner}}")
+    .replace(/taking \{\{l\}\}/g, "being taken by {{lui}}")
+    .replace(/you take \{\{partner\}\}/g, "{{partner}} takes you")
+    .replace(/you take \{\{l\}\}/g, "{{il}} takes you")
+    .replace(/to take \{\{partner\}\}/g, "to be taken by {{partner}}")
+    .replace(/to take \{\{l\}\}/g, "to be taken by {{lui}}")
+    .replace(/Take \{\{partner\}\} again/g, "Let {{partner}} take you again")
+    .replace(/take \{\{partner\}\} again/g, "let {{partner}} take you again")
+    .replace(/Take \{\{partner\}\}/g, "Let {{partner}} take you")
+    .replace(/take \{\{partner\}\}/g, "let {{partner}} take you")
+    .replace(/Take \{\{l\}\}/g, "Let {{lui}} take you")
+    .replace(/take \{\{l\}\}/g, "let {{lui}} take you")
+    .replace(/Penetrate \{\{partner\}\}/g, "Let {{partner}} penetrate you")
+    .replace(/penetrate \{\{partner\}\}/g, "let {{partner}} penetrate you")
+    .replace(/Enter \{\{partner\}\}/g, "Let {{partner}} enter you")
+    .replace(/enter \{\{partner\}\}/g, "let {{partner}} enter you");
+}
+function toyWordingEN(text){
+  return text
+    .replace(/(Take|take|Penetrate|penetrate|Enter|enter) (\{\{partner\}\}|\{\{l\}\})/g, "$1 $2 (fingers, a toy or the strap-on)")
+    .replace(/(taking) (\{\{partner\}\}|\{\{l\}\})/g, "$1 $2 (fingers, a toy or the strap-on)");
+}
 function genderize(text, g){
+  if(window.PackManager && window.PackManager.lang==="en") return genderizeEN(text, g);
   const F = g==="femme";
   return text
     .replace(/\{\{un_oral\}\}/g, F ? "un cunnilingus" : "une fellation")
@@ -1642,6 +1697,11 @@ function toyWording(text){
 function adaptActForActor(text, meG, pG){
   if(meG!=="femme") return text;
   if(settings.accessories && settings.accessories.harnais) return text;
+  const en = window.PackManager && window.PackManager.lang==="en";
+  if(en){
+    if(!hasPenetrativeActEN(text)) return text;
+    return pG==="homme" ? invertToReceiveEN(text) : toyWordingEN(text);
+  }
   if(!hasPenetrativeAct(text)) return text;
   if(pG==="homme") return invertToReceive(text);
   return toyWording(text);
@@ -1650,11 +1710,11 @@ function explainMedia(text, ch){
   if(!ch || (ch.pack!=="photo" && ch.cat!=="photo")) return text;
   if(/^Vidéo :|^Photo :/i.test(text)) return text;
   if(/^(Filme|Photo)\b/i.test(text)) return text; // le défi explique déjà quoi filmer/photographier — pas besoin du préambule générique
-  const film=/filme|vidéo|video|lance la vidéo/i.test(ch.text);
+  const film=/filme|vidéo|video|lance la vidéo/i.test(srcText(ch));
   const head=film
     ? "Vidéo : un de vous tient le téléphone. Les deux sont d'accord. Tu filmes sans couper. Cadre ce qui est décrit (visage seulement si le texte le dit).\n"
     : "Photo : un cliché, les deux sont d'accord. Cadre uniquement ce qui est décrit, pas tout le corps.\n";
-  return head+text;
+  return (window.T ? window.T(head.trim())+"\n" : head)+text;
 }
 function personalize(text, playerId, ch){
   const me = players[playerId];
@@ -1663,7 +1723,7 @@ function personalize(text, playerId, ch){
   text = adaptActForActor(text, me.gender, p.gender);
   text = explainMedia(text, ch);
   return genderize(text, p.gender)
-    .replace(/\{\{un_oral_toi\}\}/g, Fme ? "un cunnilingus" : "une fellation")
+    .replace(/\{\{un_oral_toi\}\}/g, (window.PackManager && window.PackManager.lang==="en") ? "head" : (Fme ? "un cunnilingus" : "une fellation"))
     .replace(/\{\{partner\}\}/g, p.name)
     .replace(/\{\{time\}\}/g, formatTime(settings.challengeDuration));
 }
@@ -1806,9 +1866,10 @@ function eveningAct(){
   if(currentLevel===3) return "vague";
   return "pic";
 }
+function srcText(c){ return (c && (c.text_fr || c.text)) || ""; }
 function classifyChallenge(c){
   if(!c) return "approche";
-  const s=((c.text||"")+" "+(c.pack||"")+" "+(c.cat||"")+" "+(c.type||"")).toLowerCase();
+  const s=(srcText(c)+" "+(c.pack||"")+" "+(c.cat||"")+" "+(c.type||"")).toLowerCase();
   if(c.pack==="aftercare" || c.type==="Aftercare" || /aftercare|couverture|propose de l.eau|plus d.ordre|câlin 20|câlin 30/.test(s)) return "retour";
   if(/prendre \{\{partner\}\}|prends \{\{partner\}\}|prends-\{\{l\}\}|tu \{\{l\}\} prends|pénètre|fais-toi prendre/.test(s)) return "pic";
   if(/\{\{un_oral\}\}|oral|bouche sur \{\{le_sexe\}\}|masturb|\{\{le_point\}\}|\{\{le_sexe\}\}/.test(s)) return "vague";
@@ -2126,7 +2187,8 @@ function pickChoice(i){
   showChallenge(chosen);
 }
 function fallbackAftercare(){
-  return {type:"Aftercare",text:"Tout s'arrête un moment. Couverture ou bras autour de {{partner}}. Propose de l'eau. Une seule question : « tu veux rester là, ou reprendre plus tard ? » Pas d'ordre, pas d'acte.",need:null,cat:"aftercare",pack:"aftercare"};
+  const TT=window.T||(x=>x);
+  return {type:"Aftercare",text:TT("Tout s'arrête un moment. Couverture ou bras autour de {{partner}}. Propose de l'eau. Une seule question : « tu veux rester là, ou reprendre plus tard ? » Pas d'ordre, pas d'acte."),need:null,cat:"aftercare",pack:"aftercare"};
 }
 
 function dealNext(fresh){
@@ -2207,7 +2269,7 @@ function prevLevel(){
 function extendLevel(){ levelTimeLeft+=120; updateTimers(); toast("+2 min"); }
 function challengeBans(c){
   if(c.ban) return c.ban;
-  const t=(c.text||"").toLowerCase();
+  const t=srcText(c).toLowerCase();
   const bans=[];
   if(/\bplug\b|\banal\b|anus/.test(t)) bans.push("anal");
   if(/fessée|fessee|fessées|gifle légère|gifle sur/.test(t)) bans.push("fessee");
@@ -2220,7 +2282,7 @@ function allowedByLimits(c){
   return !challengeBans(c).some(b => lim[b] === true);
 }
 function involvesClothes(c){
-  const tx=(c.text||"").toLowerCase();
+  const tx=srcText(c).toLowerCase();
   return /vêtement|vetement|habill|sous-vêtement|sous-vetement|par-dessus les vêt|par-dessus le tissu|encore habill|déshabill|deshabill|t-shirt|pantalon|jupe|ceinture|bretelle|chaussette|élastique du sous|\ble tissu\b|\bdu tissu\b|sous le haut|sous le col|sous tes vêt|sous le t-shirt|enlève-lui le haut|enlève le haut|enlève un vêtement|enlève tes vêtements|un vêtement en moins|débouton|un bas ou un pantalon|recouvrant/.test(tx);
 }
 function updateNudeUI(){
@@ -2295,7 +2357,7 @@ function getAvailableChallenges(extraFilter){
   }
   if(currentMode==="blitz"){
     const tooSlow = c => {
-      const t=(c.text||"");
+      const t=srcText(c);
       let maxSec=0;
       t.replace(/(\d+)\s*secondes?/gi, (_,n)=>{ maxSec=Math.max(maxSec,+n); return _; });
       t.replace(/(\d+)\s*minutes?/gi, (_,n)=>{ maxSec=Math.max(maxSec,+n*60); return _; });
@@ -2338,7 +2400,7 @@ function rememberChallenge(ch){
 
 
 function challengePictogram(ch){
-  const raw=((ch&&ch.text)||"")+" "+((ch&&ch.cat)||"")+" "+((ch&&ch.pack)||"")+" "+((ch&&ch.need)||"");
+  const raw=srcText(ch)+" "+((ch&&ch.cat)||"")+" "+((ch&&ch.pack)||"")+" "+((ch&&ch.need)||"");
   const s=raw.toLowerCase();
   const out=[];
   const add=e=>{ if(e && !out.includes(e)) out.push(e); };

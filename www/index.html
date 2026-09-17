@@ -66,6 +66,7 @@
   .history-item{padding:6px 0;border-bottom:1px solid #2a1f32}
   .hint{font-size:.78rem;color:var(--muted);margin-top:8px;line-height:1.35}
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:200;padding:16px;flex-direction:column}
+  #ageGateOverlay{z-index:300}
   .overlay.show{display:flex}
   .wheel-wrap{position:relative;width:280px;height:280px}
   .wheel{width:280px;height:280px;border-radius:50%;border:8px solid #2a1f32;background:conic-gradient(#e83e8c 0 60deg,#c2185b 60deg 120deg,#ff6b9d 120deg 180deg,#8e2457 180deg 240deg,#ff9ec5 240deg 300deg,#6d1b42 300deg 360deg);transition:transform 3.4s cubic-bezier(.17,.67,.12,1)}
@@ -144,6 +145,10 @@
   .preview-box{grid-column:1/-1;width:100%;margin-top:6px;padding:8px;background:#150f1a;border-radius:10px}
   .preview-box p{margin:4px 0;font-style:italic}
   .aftercare-note{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:14px;padding:9px 12px;background:var(--card2);border-radius:12px}
+  .mega-banner{text-align:center;padding:18px 16px;border-radius:16px;margin-bottom:16px;background:linear-gradient(135deg,#3a0f28,#5a1638 50%,#e83e8c);border:1px solid rgba(255,111,168,.5);box-shadow:0 8px 28px rgba(232,62,140,.35)}
+  .mega-banner-title{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:4px}
+  .mega-banner-sub{font-size:.8rem;color:#ffd0e4;margin-bottom:12px}
+  .mega-banner-btn{width:100%;padding:12px;font-size:.95rem;border-radius:14px}
   .shop-item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:14px;background:var(--card2);border:1px solid #3a2a45;margin-bottom:8px}
   .shop-item.owned{border-color:#2a4a38}
   .shop-item.locked{border-color:#3a2a45}
@@ -530,6 +535,19 @@
 
 
 
+<div class="overlay" id="ageGateOverlay">
+  <div class="setup-card" style="max-width:440px;width:100%;text-align:center" id="ageGateContent">
+    <div style="font-size:2.2rem">🔞</div>
+    <h2>Contenu réservé aux adultes</h2>
+    <p style="line-height:1.5;margin:14px 0">
+      Cette application contient des thèmes et du contenu à caractère sexuel destinés exclusivement
+      aux adultes consentants. En continuant, vous certifiez avoir <strong>18 ans ou plus</strong>.
+    </p>
+    <button class="main-btn btn-primary" style="width:100%;margin-bottom:10px" onclick="confirmAgeGate()">J'ai 18 ans ou plus</button>
+    <button class="ghost-btn" style="width:100%" onclick="denyAgeGate()">J'ai moins de 18 ans</button>
+  </div>
+</div>
+
 <div class="overlay" id="onboardingOverlay">
   <div class="setup-card" style="max-width:440px;width:100%">
     <h2>Bienvenue 👋</h2>
@@ -811,6 +829,30 @@ function closeOnboarding(){
   $("onboardingOverlay").classList.remove("show");
   try{ localStorage.setItem("jdc_onboarding_seen","1"); }catch(e){}
 }
+function maybeShowOnboarding(){
+  try{
+    if(!localStorage.getItem("jdc_onboarding_seen")) $("onboardingOverlay").classList.add("show");
+  }catch(e){}
+}
+function checkAgeGate(){
+  try{
+    if(localStorage.getItem("jdc_age_confirmed")==="1") return true;
+  }catch(e){}
+  $("ageGateOverlay").classList.add("show");
+  return false;
+}
+function confirmAgeGate(){
+  try{ localStorage.setItem("jdc_age_confirmed","1"); }catch(e){}
+  $("ageGateOverlay").classList.remove("show");
+  maybeShowOnboarding();
+}
+function denyAgeGate(){
+  $("ageGateContent").innerHTML = `
+    <div style="font-size:2.2rem">🚫</div>
+    <h2>Accès non autorisé</h2>
+    <p style="line-height:1.5;margin:14px 0">Cette application est réservée aux personnes majeures (18 ans et plus). Merci de fermer cette page.</p>
+  `;
+}
 let setupStep = 1;
 function renderSetupStep(){
   document.querySelectorAll(".setup-step").forEach(el=>{
@@ -887,9 +929,7 @@ function initLists(){
     $(id).addEventListener("change", updateSetupPreview);
   });
   applySavedPrefs();
-  try{
-    if(!localStorage.getItem("jdc_onboarding_seen")) $("onboardingOverlay").classList.add("show");
-  }catch(e){}
+  if(checkAgeGate()) maybeShowOnboarding();
 }
 function loadSetupPrefs(){
   try{ return JSON.parse(localStorage.getItem("jdc_setup_prefs")) || null; }catch(e){ return null; }
@@ -961,6 +1001,15 @@ function renderShop(){
   const anyOwned = Object.keys(CAT).some(id=>!CAT[id].free && window.PackManager.isPurchased(id));
   const themeIco = {theme_sensoriel:"💧",theme_ambiance:"🎵",theme_jeux_legers:"🙈",theme_bdsm_avance:"⛓️",theme_photo_video:"📷",theme_qacte:"💥",theme_exterieur:"🛋️"};
 
+  // --- Mégapack : bannière "tout débloquer" ---
+  const megaOwned = window.PackManager.isPurchased("megapack");
+  const megaBanner = megaOwned ? "" : `
+    <div class="mega-banner" data-pack-row="megapack">
+      <div class="mega-banner-title">🎁 Mégapack — Tout débloquer</div>
+      <div class="mega-banner-sub">${CAT.megapack.count} défis d'un coup — les 9 packs payants réunis</div>
+      <button class="btn-unlock mega-banner-btn" data-unlock="megapack">Tout débloquer</button>
+    </div>`;
+
   // --- Niveaux : bande compacte de 5 tuiles ---
   const levelIds = ["niveau_1","niveau_2","niveau_3","niveau_4","niveau_5"];
   const levelStrip = `<div class="level-strip">` + levelIds.map(id=>{
@@ -1005,6 +1054,7 @@ function renderShop(){
     </p>`;
 
   el.innerHTML =
+    megaBanner +
     `<div class="shop-section-label">Niveaux</div>` + levelStrip +
     `<div class="shop-section-label">Packs à thème</div>` + themeGrid +
     aftercareNote + restoreBox;

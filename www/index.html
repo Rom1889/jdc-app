@@ -407,6 +407,7 @@
       <button class="ghost-btn" id="btnCloseSideMenu">✕</button>
     </div>
     <button class="side-menu-item" id="btnSideNewGame">🎲 <span id="menuNewGame">Nouvelle partie</span></button>
+    <button class="side-menu-item" id="btnSideShop">🛍️ <span id="menuShop">Boutique</span></button>
     <button class="side-menu-item" id="btnSideRate">⭐ <span id="menuRate">Noter l'app</span></button>
     <div class="side-menu-lang">
       <div class="side-menu-lang-label" id="menuLangLabel">Langue</div>
@@ -926,6 +927,7 @@ const STRINGS = {
     home_tagline: "Retrouvez la complicité, à votre rythme",
     home_play: "Jouer",
     menu_new_game: "Nouvelle partie",
+    menu_shop: "Boutique",
     menu_rate: "Noter l'app",
     menu_lang: "Langue",
     menu_app_tagline: "Retrouvez la complicité",
@@ -945,6 +947,7 @@ function renderHomeTexts(){
   $("homeTagline").textContent = t("home_tagline");
   $("btnHomePlay").textContent = t("home_play");
   $("menuNewGame").textContent = t("menu_new_game");
+  $("menuShop").textContent = t("menu_shop");
   $("menuRate").textContent = t("menu_rate");
   $("menuLangLabel").textContent = t("menu_lang");
   $("menuAppName").textContent = t("home_title");
@@ -981,6 +984,7 @@ $("btnHomePlay").onclick = goToSetup;
 $("btnOpenSideMenu").onclick = openSideMenu;
 $("btnCloseSideMenu").onclick = closeSideMenu;
 $("btnSideNewGame").onclick = goToSetup;
+$("btnSideShop").onclick = function(){ closeSideMenu(); openShop(); };
 $("btnSideRate").onclick = openAppStoreReview;
 document.querySelectorAll("#langSelect button").forEach(b=>{
   b.onclick = ()=> setLang(b.dataset.lang);

@@ -736,6 +736,7 @@
 <div class="overlay" id="favoritesOverlay">
   <div class="setup-card" style="max-width:460px;width:100%;max-height:80vh;overflow-y:auto">
     <h2>⭐ Mes favoris</h2>
+    <button class="ghost-btn" id="btnClearFavorites" style="width:100%;margin-bottom:10px;display:none" onclick="clearAllFavorites()">🗑 Tout supprimer</button>
     <div id="favoritesList"></div>
     <button class="ghost-btn" style="width:100%;margin-top:14px" onclick="closeFavorites()">Fermer</button>
   </div>
@@ -931,17 +932,47 @@ function toggleFavorite(text){
   saveStats(s);
   updateFavoriteBtn();
 }
+function removeFavoriteAt(idx){
+  const s = loadStats();
+  if(idx<0 || idx>=s.favorites.length) return;
+  s.favorites.splice(idx,1);
+  saveStats(s);
+  toast("Retiré des favoris");
+  renderFavoritesList();
+  updateFavoriteBtn();
+}
+function clearAllFavorites(){
+  const s = loadStats();
+  if(!s.favorites.length) return;
+  if(!confirm(`Supprimer les ${s.favorites.length} favori${s.favorites.length>1?"s":""} ?`)) return;
+  s.favorites = [];
+  saveStats(s);
+  toast("Favoris supprimés");
+  renderFavoritesList();
+  updateFavoriteBtn();
+}
 function isFavorite(text){ return loadStats().favorites.includes(text); }
 function updateFavoriteBtn(){
   const btn=$("btnFavorite"); if(!btn || !lastChallenge) return;
   btn.textContent = isFavorite(lastChallenge.text) ? "⭐" : "☆";
 }
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
 function renderFavoritesList(){
   const el=$("favoritesList"); if(!el) return;
   const favs=loadStats().favorites;
+  const clearBtn = $("btnClearFavorites");
+  if(clearBtn) clearBtn.style.display = favs.length ? "" : "none";
   el.innerHTML = favs.length
-    ? favs.map(t=>`<div class="input-row" style="align-items:flex-start"><label style="flex:1;font-weight:400;font-size:.85rem">${t}</label></div>`).join("")
+    ? favs.map((t,i)=>`<div class="input-row" style="align-items:flex-start;gap:8px">
+        <label style="flex:1;font-weight:400;font-size:.85rem">${escapeHtml(t)}</label>
+        <button class="ghost-btn" style="padding:4px 10px;font-size:.8rem;flex-shrink:0" title="Retirer ce favori" data-fav-remove="${i}">🗑</button>
+      </div>`).join("")
     : `<p class="hint">Aucun favori pour l'instant — clique sur ☆ pendant un défi pour le garder.</p>`;
+  el.querySelectorAll("[data-fav-remove]").forEach(btn=>{
+    btn.onclick = () => removeFavoriteAt(+btn.dataset.favRemove);
+  });
 }
 
 function $(id){return document.getElementById(id)}

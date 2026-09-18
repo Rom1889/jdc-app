@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Assistance — Jeu de Couple</title>
+<style>
+  :root{
+    --bg:#0b0710; --card:#160e1c; --text:#f2e9f5; --muted:#c9b8d1;
+    --accent:#e83e8c; --accent2:#ff6b9d; --border:#2a1f32;
+  }
+  @media (prefers-color-scheme: light){
+    :root{ --bg:#faf6fb; --card:#ffffff; --text:#241522; --muted:#5a4a5e; --border:#e7dbea; }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Inter",Segoe UI,Roboto,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:32px 20px 80px}
+  h1{
+    font-family:"Playfair Display",Georgia,serif;
+    font-size:1.9rem;margin:0 0 6px;
+    background:linear-gradient(135deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  p,li{color:var(--muted);font-size:.95rem}
+  a{color:var(--accent2)}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px 22px;margin-top:20px}
+  .badge{
+    display:inline-block;background:rgba(232,62,140,.15);color:var(--accent2);
+    border:1px solid rgba(232,62,140,.35);border-radius:999px;padding:3px 12px;
+    font-size:.78rem;margin-bottom:18px;
+  }
+  h2{font-size:1.05rem;margin:0 0 8px}
+  footer{margin-top:50px;color:var(--muted);font-size:.8rem;border-top:1px solid var(--border);padding-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="badge">💬 Jeu de Couple — iOS</span>
+  <h1>Assistance</h1>
+  <p>Une question, un bug à signaler, un problème d'achat ou de restauration de contenu ? Écris-moi directement, je réponds personnellement.</p>
+
+  <div class="card">
+    <h2>Contact</h2>
+    <p><a href="mailto:romain.clarac@hotmail.fr">romain.clarac@hotmail.fr</a></p>
+  </div>
+
+  <div class="card">
+    <h2>Questions fréquentes</h2>
+    <p><strong>Mon achat n'apparaît pas dans l'app.</strong><br>Utilise le bouton « Restaurer mes achats » dans les réglages de l'app. Si le souci persiste, écris-moi avec le prénom que tu utilises dans le jeu et la date approximative de l'achat.</p>
+    <p><strong>L'app plante ou un défi s'affiche mal.</strong><br>Indique-moi le niveau, le pack concerné et si possible le texte du défi — ça m'aide à corriger rapidement.</p>
+    <p><strong>Je veux supprimer mes données.</strong><br>Toutes les données sont stockées uniquement sur ton appareil : supprimer l'application suffit à tout effacer. Voir la <a href="privacy.html">politique de confidentialité</a> pour le détail.</p>
+  </div>
+
+  <footer>Jeu de Couple — Romain Clarac, entrepreneur individuel, SIREN 890061443.</footer>
+</div>
+</body>
+</html>

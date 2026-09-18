@@ -31,6 +31,9 @@ workflows:
           npx cap add ios
           npx @capacitor/assets generate --ios
           npx cap sync ios
+      - name: Restreindre l'app à iPhone uniquement (pas d'iPad — évite l'exigence de captures iPad sur la fiche App Store)
+        script: |
+          sed -i '' 's/TARGETED_DEVICE_FAMILY = "1,2"/TARGETED_DEVICE_FAMILY = 1/g; s/TARGETED_DEVICE_FAMILY = 2;/TARGETED_DEVICE_FAMILY = 1;/g' ios/App/App.xcodeproj/project.pbxproj
       - name: Déclarer l'exemption de chiffrement (évite la question manuelle sur App Store Connect)
         script: |
           /usr/libexec/PlistBuddy -c "Add :ITSAppUsesNonExemptEncryption bool false" ios/App/App/Info.plist

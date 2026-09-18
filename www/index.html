@@ -1630,6 +1630,54 @@ function toyWordingEN(text){
 }
 // ---- Espagnol : {{il}}/{{lui}}=él/ella {{l}}=lo/la {{o}}/{{e}}=o/a {{le_sexe}}=el sexo {{le_point}}=el clítoris/el glande
 //      {{un_oral}}=un cunnilingus/una felación {{la_poitrine}}=los pechos/el pecho
+// ---- Allemand ----
+function genderizeDE(text, g){
+  const F = g==="femme";
+  return text
+    .replace(/\{\{un_oral\}\}/g, F ? "Cunnilingus" : "einen Blowjob")
+    .replace(/\{\{le_point\}\}/g, F ? "die Klitoris" : "die Eichel")
+    .replace(/\{\{le_sexe\}\}/g, F ? "die Vulva" : "den Penis")
+    .replace(/\{\{la_poitrine\}\}/g, F ? "die Brüste" : "die Brust")
+    .replace(/\{\{L\}\}/g, F ? "Sie" : "Ihn")
+    .replace(/\{\{l\}\}/g, F ? "sie" : "ihn")
+    .replace(/\{\{lui\}\}/g, F ? "ihr" : "ihm")
+    .replace(/\{\{Il\}\}/g, F ? "Sie" : "Er")
+    .replace(/\{\{il\}\}/g, F ? "sie" : "er")
+    .replace(/\{\{his\}\}|\{\{His\}\}/g, F ? "ihr" : "sein")
+    .replace(/\{\{e\}\}/g, F ? "e" : "")
+    .replace(/\{\{o\}\}/g, "")
+    .replace(/\{\{assis\}\}/g, "sitzend")
+    .replace(/\{\{allonge\}\}/g, "liegend")
+    .replace(/\{\{pris\}\}/g, "genommen")
+    .replace(/\{\{nu\}\}/g, "nackt")
+    .replace(/\bvon den Vulva\b/g, "von der Vulva")
+    .replace(/\bzur Vulva\b/g, "zur Vulva")
+    .replace(/\bin den Vulva\b/g, "in die Vulva")
+    .replace(/\ban den Vulva\b/g, "an die Vulva")
+    .replace(/\bauf den Vulva\b/g, "auf die Vulva");
+}
+function hasPenetrativeActDE(text){
+  return /\b(nimm|nimmst|nehmen|penetrier(st|e|en)?|dring(?:st)? .{0,10}ein)\b.{0,40}(\{\{partner\}\}|\{\{l\}\})/i.test(text);
+}
+function invertToReceiveDE(text){
+  return text
+    .replace(/Nimm \{\{partner\}\} (?:nochmal|noch einmal)/g,"Lass dich von {{partner}} noch einmal nehmen")
+    .replace(/nimm \{\{partner\}\} (?:nochmal|noch einmal)/g,"lass dich von {{partner}} noch einmal nehmen")
+    .replace(/Nimm \{\{partner\}\}/g,"Lass dich von {{partner}} nehmen")
+    .replace(/nimm \{\{partner\}\}/g,"lass dich von {{partner}} nehmen")
+    .replace(/Nimm \{\{l\}\}/g,"Lass dich von {{lui}} nehmen")
+    .replace(/nimm \{\{l\}\}/g,"lass dich von {{lui}} nehmen")
+    .replace(/Penetriere? \{\{partner\}\}/g,"Lass dich von {{partner}} penetrieren")
+    .replace(/penetriere? \{\{partner\}\}/g,"lass dich von {{partner}} penetrieren")
+    .replace(/während du \{\{partner\}\} nimmst/g,"während {{partner}} dich nimmt")
+    .replace(/Während du \{\{partner\}\} nimmst/g,"Während {{partner}} dich nimmt")
+    .replace(/du \{\{l\}\} nimmst/g,"{{lui}} dich nimmt");
+}
+function toyWordingDE(text){
+  return text
+    .replace(/(Nimm|nimm) (\{\{partner\}\}|\{\{l\}\})/g,"$1 $2 (mit Fingern, einem Toy oder Strap-on)")
+    .replace(/(Penetriere?) (\{\{partner\}\}|\{\{l\}\})/g,"$1 $2 (mit Fingern, einem Toy oder Strap-on)");
+}
 function genderizeES(text, g){
   const F = g==="femme";
   return text
@@ -1682,6 +1730,7 @@ function genderize(text, g){
   const L = window.PackManager && window.PackManager.lang;
   if(L==="en") return genderizeEN(text, g);
   if(L==="es") return genderizeES(text, g);
+  if(L==="de") return genderizeDE(text, g);
   const F = g==="femme";
   return text
     .replace(/\{\{un_oral\}\}/g, F ? "un cunnilingus" : "une fellation")
@@ -1759,6 +1808,10 @@ function adaptActForActor(text, meG, pG){
     if(!hasPenetrativeActES(text)) return text;
     return pG==="homme" ? invertToReceiveES(text) : toyWordingES(text);
   }
+  if(L==="de"){
+    if(!hasPenetrativeActDE(text)) return text;
+    return pG==="homme" ? invertToReceiveDE(text) : toyWordingDE(text);
+  }
   if(!hasPenetrativeAct(text)) return text;
   if(pG==="homme") return invertToReceive(text);
   return toyWording(text);
@@ -1767,7 +1820,7 @@ function explainMedia(text, ch){
   if(!ch || (ch.pack!=="photo" && ch.cat!=="photo")) return text;
   const st=srcText(ch);
   if(/^Vidéo :|^Photo :|^Video:|^Photo:/i.test(text) || /^Vidéo :|^Photo :/i.test(st)) return text;
-  if(/^(Filme|Photo)\b/i.test(st) || /^(Film|Photo|Take a photo|Start a|Graba|Foto|Haz una foto|Hazle una foto|Lanza)\b/i.test(text)) return text; // le défi explique déjà quoi filmer/photographier — pas besoin du préambule générique
+  if(/^(Filme|Photo)\b/i.test(st) || /^(Film|Photo|Take a photo|Start a|Graba|Foto|Haz una foto|Hazle una foto|Lanza|Filme |Mach ein Foto|Mach ein Video|Bitte )\b/i.test(text)) return text; // le défi explique déjà quoi filmer/photographier — pas besoin du préambule générique
   const film=/filme|vidéo|video|lance la vidéo/i.test(srcText(ch));
   const head=film
     ? "Vidéo : un de vous tient le téléphone. Les deux sont d'accord. Tu filmes sans couper. Cadre ce qui est décrit (visage seulement si le texte le dit).\n"
@@ -1781,7 +1834,7 @@ function personalize(text, playerId, ch){
   text = adaptActForActor(text, me.gender, p.gender);
   text = explainMedia(text, ch);
   return genderize(text, p.gender)
-    .replace(/\{\{un_oral_toi\}\}/g, (window.PackManager && window.PackManager.lang==="en") ? "head" : (window.PackManager && window.PackManager.lang==="es") ? (Fme ? "un cunnilingus" : "una felación") : (Fme ? "un cunnilingus" : "une fellation"))
+    .replace(/\{\{un_oral_toi\}\}/g, (window.PackManager && window.PackManager.lang==="en") ? "head" : (window.PackManager && window.PackManager.lang==="es") ? (Fme ? "un cunnilingus" : "una felación") : (window.PackManager && window.PackManager.lang==="de") ? (Fme ? "Cunnilingus" : "einen Blowjob") : (Fme ? "un cunnilingus" : "une fellation"))
     .replace(/\{\{partner\}\}/g, p.name)
     .replace(/\{\{time\}\}/g, formatTime(settings.challengeDuration));
 }

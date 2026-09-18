@@ -139,7 +139,10 @@
       const items = await loadPack(id);
       return items.map(it => ({...it, packId: id}));
     }));
-    return chunks.flat();
+    // BUG corrigé : un pack à thème (ex. theme_photo_video) contient des défis balisés
+    // level 1 à 5. Posséder ce pack seul ne doit PAS rendre accessibles les défis de
+    // niveau 4/5 — ce niveau reste soumis à l'achat séparé de niveau_4 / niveau_5.
+    return chunks.flat().filter(it => isPurchased("niveau_"+it.level));
   }
 
   // Reconstruit un objet {1:[...],2:[...],...} compatible avec l'ancien moteur (levelsData)

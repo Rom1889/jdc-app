@@ -906,6 +906,22 @@ function loadStats(){
   catch(e){ return {gamesPlayed:0, bestLevel:1, favorites:[]}; }
 }
 function saveStats(s){ try{ localStorage.setItem("jdc_stats", JSON.stringify(s)); }catch(e){} }
+
+// --- Progression de la partie en cours (pour que "Reprendre" revienne au bon niveau) ---
+// BUG corrigé : "Reprendre" relançait toujours au niveau de départ choisi en config,
+// jamais au niveau réellement atteint pendant la partie (aucune sauvegarde n'existait).
+function saveGameProgress(){
+  try{
+    localStorage.setItem("jdc_active_game", JSON.stringify({
+      currentLevel, maxLevelReached, points, sessionCounts,
+      sessionTimeLeft, currentPlayer, ts: Date.now()
+    }));
+  }catch(e){}
+}
+function loadGameProgress(){
+  try{ return JSON.parse(localStorage.getItem("jdc_active_game")) || null; }catch(e){ return null; }
+}
+function clearGameProgress(){ try{ localStorage.removeItem("jdc_active_game"); }catch(e){} }
 function toggleFavorite(text){
   if(!text) return;
   const s = loadStats();
@@ -1132,15 +1148,19 @@ function renderResume(){
   btn.style.display = "";
   play.classList.remove("primary");
   play.textContent = t("home_new_config");
-  const lvlName = {1:"Connexion",2:"Tension",3:"Sensualité",4:"Stimulation",5:"Acte complet"}[p.startLevel||1] || "";
+  // Le niveau affiché/repris doit être celui réellement atteint en jeu (jdc_active_game),
+  // pas le niveau de départ choisi en config — sinon "Reprendre" ment sur où il ramène.
+  const progress = loadGameProgress();
+  const displayLevel = (progress && progress.currentLevel) || p.startLevel || 1;
+  const lvlName = {1:"Connexion",2:"Tension",3:"Sensualité",4:"Stimulation",5:"Acte complet"}[displayLevel] || "";
   const dur = p.challengeDuration ? (p.challengeDuration>=60 ? Math.round(p.challengeDuration/60)+" min" : p.challengeDuration+" s") : "";
   const TT = window.T || (x=>x);
-  $("resumeSummary").textContent = [ (p.names[1]||TT("Joueur 1"))+" & "+(p.names[2]||TT("Joueur 2")), TT(MODE_LABELS[p.mode||"duo"]||"Duo"), TT("Niveau")+" "+(p.startLevel||1)+(lvlName?" · "+TT(lvlName):""), dur ].filter(Boolean).join(" · ");
+  $("resumeSummary").textContent = [ (p.names[1]||TT("Joueur 1"))+" & "+(p.names[2]||TT("Joueur 2")), TT(MODE_LABELS[p.mode||"duo"]||"Duo"), TT("Niveau")+" "+displayLevel+(lvlName?" · "+TT(lvlName):""), dur ].filter(Boolean).join(" · ");
 }
 const MODE_LABELS = {duo:"Duo",solo:"Solo",marathon:"Marathon",roulette:"Roulette",relais:"Relais",cachee:"Cachée",blitz:"Blitz"};
 function resumeGame(){
   $("homeScreen").style.display = "none";
-  startGame();
+  startGame(loadGameProgress());
 }
 $("btnHomePlay").onclick = goToSetup;
 $("btnHomeResume").onclick = resumeGame;
@@ -1311,6 +1331,8 @@ async function refreshLevelsData(){
   levelsData = await window.PackManager.getUnlockedLevelsData();
   levelsDataReady = true;
 }
+// Prérequis d'achat entre niveaux : niveau 5 exige d'avoir déjà le niveau 4.
+const LEVEL_PREREQ = { niveau_5: "niveau_4" };
 function renderShop(){
   const el = $("shopList");
   if(!el || !window.PackManager) return;
@@ -1328,15 +1350,27 @@ function renderShop(){
     </div>`;
 
   // --- Niveaux : bande compacte de 5 tuiles ---
+  // Niveau 5 (Acte complet) ne peut être acheté qu'après le niveau 4 (Stimulation) —
+  // évite de vendre le niveau le plus explicite à quelqu'un qui n'a pas encore le 4.
   const levelIds = ["niveau_1","niveau_2","niveau_3","niveau_4","niveau_5"];
   const levelStrip = `<div class="level-strip">` + levelIds.map(id=>{
     const meta = CAT[id]; if(!meta) return "";
     const owned = window.PackManager.isPurchased(id);
     const num = id.replace("niveau_","");
+    const prereqId = LEVEL_PREREQ[id];
+    const prereqMissing = prereqId && !window.PackManager.isPurchased(prereqId);
+    let unlockCell;
+    if(owned){
+      unlockCell = `<span class="lvl-check">✓</span>`;
+    } else if(prereqMissing){
+      unlockCell = `<button class="btn-unlock-sm" disabled title="Débloque d'abord le niveau ${prereqId.replace('niveau_','')}">🔒</button>`;
+    } else {
+      unlockCell = `<button class="btn-unlock-sm" data-unlock="${id}" title="Débloquer (test)">🔓</button>`;
+    }
     return `<div class="level-tile ${owned?"owned":"locked"}" data-pack-row="${id}">
       <div class="level-tile-num">${owned?"":"🔒"} ${num}</div>
       <div class="level-tile-count">${meta.count}</div>
-      ${owned ? `<span class="lvl-check">✓</span>` : `<button class="btn-unlock-sm" data-unlock="${id}" title="Débloquer (test)">🔓</button>`}
+      ${unlockCell}
     </div>`;
   }).join("") + `</div>`;
 
@@ -1378,6 +1412,12 @@ function renderShop(){
   el.querySelectorAll("[data-unlock]").forEach(btn=>{
     btn.onclick = async ()=>{
       const packId = btn.dataset.unlock;
+      const prereqId = LEVEL_PREREQ[packId];
+      if(prereqId && !window.PackManager.isPurchased(prereqId)){
+        toast(`Débloque d'abord le niveau ${prereqId.replace("niveau_","")} avant le niveau ${packId.replace("niveau_","")}.`);
+        scrollToPack(prereqId);
+        return;
+      }
       if(window.RCBridge && window.RCBridge.isNative()){
         const original = btn.textContent;
         btn.textContent = "…"; btn.disabled = true;
@@ -1839,7 +1879,7 @@ function personalize(text, playerId, ch){
     .replace(/\{\{time\}\}/g, formatTime(settings.challengeDuration));
 }
 
-async function startGame(){
+async function startGame(resume){
   ensureAudio();
   saveSetupPrefs();
   try{
@@ -1872,6 +1912,18 @@ async function startGame(){
   points={1:0,2:0}; history=[]; usedChallenges=new Set(); recentHistory=[]; lastChallenge=null; lastOutcome=null; heatStreak=0; forceAftercare=0; pendingChoices=[]; challengeLive=false; sessionPaused=false;
   sessionCounts={success:0,fail:0,skip:0}; maxLevelReached=currentLevel; level5Warned=false;
   currentPlayer = currentMode==="solo" ? soloActor : 1;
+  // Reprise d'une partie en cours : on réapplique le niveau/score/temps réellement atteints
+  // (pas seulement le niveau de départ choisi en config) — voir saveGameProgress().
+  if(resume && isLevelOwned(resume.currentLevel)){
+    currentLevel = resume.currentLevel;
+    maxLevelReached = Math.max(maxLevelReached, resume.maxLevelReached||currentLevel);
+    if(resume.points) points = resume.points;
+    if(resume.sessionCounts) sessionCounts = resume.sessionCounts;
+    if(resume.currentPlayer) currentPlayer = resume.currentPlayer;
+    if(typeof resume.sessionTimeLeft==="number" && resume.sessionTimeLeft>0) sessionTimeLeft = resume.sessionTimeLeft;
+    levelTimeLeft=Math.floor(sessionTimeLeft/Math.max(1,6-currentLevel));
+  }
+  saveGameProgress();
   $("setupScreen").style.display="none"; $("gameScreen").style.display="flex";
   document.querySelectorAll(".mode-btn").forEach(b=>b.classList.toggle("active",b.dataset.mode===currentMode));
   updateUI(); updateTimers(); startSessionTimer(); updateLevelInfo(); updateHistory(); updateNudeUI();
@@ -1949,7 +2001,8 @@ function startSessionTimer(){
     if(sessionPaused) return;
     sessionTimeLeft--; levelTimeLeft--;
     if(levelTimeLeft<=0 && currentLevel<5) nextLevel(true);
-    if(sessionTimeLeft<=0){ clearInterval(sessionInterval); stopChallengeTimer(); showRecap(); }
+    if(sessionTimeLeft<=0){ clearInterval(sessionInterval); stopChallengeTimer(); showRecap(); return; }
+    if(sessionTimeLeft%5===0) saveGameProgress(); // throttlé pour ne pas écrire dans localStorage chaque seconde
     updateTimers();
   },1000);
 }
@@ -2360,6 +2413,7 @@ function nextLevel(auto=false){
   currentLevel++;
   if(currentLevel>maxLevelReached) maxLevelReached=currentLevel;
   levelTimeLeft=Math.floor(sessionTimeLeft/Math.max(1,6-currentLevel));
+  saveGameProgress();
   updateLevelInfo(); stopChallengeTimer(); timeLeft=settings.challengeDuration; updateTimers();
   toast(auto?"Niveau "+currentLevel+" (auto)":"Niveau "+currentLevel);
   if(currentLevel===5 && !level5Warned){
@@ -2373,6 +2427,7 @@ function prevLevel(){
   if(currentLevel<=1) return toast("Déjà au niveau 1");
   currentLevel--;
   levelTimeLeft=Math.floor(sessionTimeLeft/Math.max(1,6-currentLevel));
+  saveGameProgress();
   updateLevelInfo(); stopChallengeTimer(); timeLeft=settings.challengeDuration; updateTimers();
   toast("Niveau "+currentLevel);
   dealNext(true);
@@ -2647,6 +2702,7 @@ function afterTurn(delay){
   if(currentMode!=="solo"){
     currentPlayer=currentPlayer===1?2:1; updateUI();
   }
+  saveGameProgress();
   setTimeout(()=>dealNext(false), delay||650);
 }
 function completeChallenge(){
@@ -2698,6 +2754,7 @@ function showRecap(){
   const isRecord = maxLevelReached > (s.bestLevel||1);
   if(isRecord) s.bestLevel = maxLevelReached;
   saveStats(s);
+  clearGameProgress(); // partie terminée (temps écoulé) : plus rien à reprendre
   $("recapStats").innerHTML = `
     <div class="input-row"><label>Défis réussis</label><b>${sessionCounts.success}</b></div>
     <div class="input-row"><label>Défis ratés</label><b>${sessionCounts.fail}</b></div>
@@ -2742,7 +2799,7 @@ $("btnSpin").onclick=function(){
     toast(picked.label);
   },3500);
 };
-function resetGame(){ if(confirm("Réinitialiser ?")) location.reload(); }
+function resetGame(){ if(confirm("Réinitialiser ?")){ clearGameProgress(); location.reload(); } }
 function backToMainMenu(){ if(confirm("Quitter la partie et revenir au menu principal ?")) location.reload(); }
 (function(){ const btn=$("btnToggleSoundTop"); if(btn) btn.textContent = soundOn ? "🔊 Sons" : "🔇 Sons coupés"; })();
 $("btnSuccess").onclick=completeChallenge;

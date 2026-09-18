@@ -408,6 +408,12 @@
   .tab-bar button.active{color:var(--accent2)}
   .tab-bar svg{width:26px;height:26px}
 
+  /* Pages "menu du bas" (Boutique / Favoris / Réglages) — vraies pages plein écran, pas des popups */
+  .page-screen{display:none;position:relative;margin:-8px;height:100dvh;min-height:0;flex-direction:column;padding:calc(env(safe-area-inset-top) + 24px) 24px 0}
+  .page-head{margin-bottom:16px}
+  .page-head h1{font-family:'Playfair Display',serif;font-size:1.55rem;margin:0;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .page-content{flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:16px}
+
   /* Feuilles (bottom sheets) */
   .overlay.sheet-overlay{align-items:flex-end;padding:0;background:rgba(6,3,8,.7)}
   .sheet{width:100%;max-width:540px;margin:0 auto;max-height:88dvh;overflow:auto;padding:12px 20px calc(env(safe-area-inset-bottom) + 24px);border-radius:28px 28px 0 0;background:var(--card);border-top:1px solid #2a1f32;box-sizing:border-box}
@@ -509,17 +515,44 @@
     <p class="home-note" id="homeNote">Vos réglages sont mémorisés d'une soirée à l'autre.</p>
   </div>
   <nav class="tab-bar" aria-label="Navigation principale">
-    <button class="active" id="tabPlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span id="tabPlayLabel">Jouer</span></button>
-    <button id="tabShop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span id="menuShop">Boutique</span></button>
-    <button id="tabFav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg><span id="tabFavLabel">Favoris</span></button>
-    <button id="tabSettings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h8M16 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="17" r="2"/></svg><span id="tabSettingsLabel">Réglages</span></button>
+    <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span class="tab-label">Jouer</span></button>
+    <button data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span class="tab-label">Boutique</span></button>
+    <button data-tab="favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg><span class="tab-label">Favoris</span></button>
+    <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h8M16 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="17" r="2"/></svg><span class="tab-label">Réglages</span></button>
   </nav>
 </div>
 
-<div class="overlay sheet-overlay" id="settingsOverlay">
-  <div class="sheet">
-    <div class="sheet-grip"></div>
-    <div class="sheet-head"><h2 id="settingsTitle">Réglages</h2><button class="icon-btn sm" id="btnCloseSettings" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+<div class="page-screen" id="shopScreen">
+  <div class="page-head"><h1 id="shopPageTitle">Boutique</h1></div>
+  <div class="page-content">
+    <div id="shopList"></div>
+    <p class="hint">Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack (achat réel à brancher ensuite — bouton de test ci-dessus en attendant). Les packs thématiques (Sensoriel, BDSM avancé, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.</p>
+  </div>
+  <nav class="tab-bar" aria-label="Navigation principale">
+    <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span class="tab-label">Jouer</span></button>
+    <button data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span class="tab-label">Boutique</span></button>
+    <button data-tab="favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg><span class="tab-label">Favoris</span></button>
+    <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h8M16 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="17" r="2"/></svg><span class="tab-label">Réglages</span></button>
+  </nav>
+</div>
+
+<div class="page-screen" id="favoritesScreen">
+  <div class="page-head"><h1>⭐ Mes favoris</h1></div>
+  <div class="page-content">
+    <button class="ghost-btn" id="btnClearFavorites" style="width:100%;margin-bottom:10px;display:none" onclick="clearAllFavorites()">🗑 Tout supprimer</button>
+    <div id="favoritesList"></div>
+  </div>
+  <nav class="tab-bar" aria-label="Navigation principale">
+    <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span class="tab-label">Jouer</span></button>
+    <button data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span class="tab-label">Boutique</span></button>
+    <button data-tab="favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg><span class="tab-label">Favoris</span></button>
+    <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h8M16 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="17" r="2"/></svg><span class="tab-label">Réglages</span></button>
+  </nav>
+</div>
+
+<div class="page-screen" id="settingsScreen">
+  <div class="page-head"><h1 id="settingsTitle">Réglages</h1></div>
+  <div class="page-content">
     <div class="side-menu-lang" style="margin-top:0">
       <div class="side-menu-lang-label" id="menuLangLabel">Langue</div>
       <div class="lang-select" id="langSelect">
@@ -534,6 +567,12 @@
       <button id="btnShowIntro" class="quiet">Revoir l'introduction</button>
     </div>
   </div>
+  <nav class="tab-bar" aria-label="Navigation principale">
+    <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span class="tab-label">Jouer</span></button>
+    <button data-tab="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 7h12l1 13H5z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span class="tab-label">Boutique</span></button>
+    <button data-tab="favorites"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2L12 17.3 6.4 20.2l1.1-6.2L3 9.6l6.2-.9z"/></svg><span class="tab-label">Favoris</span></button>
+    <button data-tab="settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 12h2M10 12h10M4 17h8M16 17h4"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="12" r="2"/><circle cx="14" cy="17" r="2"/></svg><span class="tab-label">Réglages</span></button>
+  </nav>
 </div>
 
 <div id="setupScreen" style="display:none">
@@ -645,15 +684,6 @@
   </div></div>
 </div>
 
-<div class="overlay" id="shopOverlay">
-  <div class="setup-card" style="max-width:520px;width:100%;max-height:85vh;overflow-y:auto">
-    <h2>Contenu additionnel</h2>
-    <div id="shopList"></div>
-    <p class="hint">Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack (achat réel à brancher ensuite — bouton de test ci-dessus en attendant). Les packs thématiques (Sensoriel, BDSM avancé, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.</p>
-    <button class="ghost-btn" onclick="closeShop()" style="margin-top:14px;width:100%">Fermer</button>
-  </div>
-</div>
-
 <div id="gameScreen">
   <div class="game-top">
     <div class="game-top-l">
@@ -730,15 +760,6 @@
       dans l'onglet Boutique 🛍️ de l'accueil.
     </p>
     <button class="main-btn btn-primary" onclick="closeOnboarding()">C'est parti</button>
-  </div>
-</div>
-
-<div class="overlay" id="favoritesOverlay">
-  <div class="setup-card" style="max-width:460px;width:100%;max-height:80vh;overflow-y:auto">
-    <h2>⭐ Mes favoris</h2>
-    <button class="ghost-btn" id="btnClearFavorites" style="width:100%;margin-bottom:10px;display:none" onclick="clearAllFavorites()">🗑 Tout supprimer</button>
-    <div id="favoritesList"></div>
-    <button class="ghost-btn" style="width:100%;margin-top:14px" onclick="closeFavorites()">Fermer</button>
   </div>
 </div>
 
@@ -915,7 +936,8 @@ function saveGameProgress(){
   try{
     localStorage.setItem("jdc_active_game", JSON.stringify({
       currentLevel, maxLevelReached, points, sessionCounts,
-      sessionTimeLeft, currentPlayer, ts: Date.now()
+      sessionTimeLeft, currentPlayer, nude: !!settings.nude, level5Warned,
+      ts: Date.now()
     }));
   }catch(e){}
 }
@@ -1120,13 +1142,16 @@ function t(key){
 function renderHomeTexts(){
   $("homeTitle").textContent = t("home_title");
   $("homeTagline").textContent = t("home_tagline");
-  $("menuShop").textContent = t("menu_shop");
   $("menuRate").textContent = t("menu_rate");
   $("menuLangLabel").textContent = t("menu_lang");
-  $("tabPlayLabel").textContent = t("home_play");
-  $("tabFavLabel").textContent = t("tab_fav");
-  $("tabSettingsLabel").textContent = t("tab_settings");
+  const TAB_KEYS = {home:"home_play", shop:"menu_shop", favorites:"tab_fav", settings:"tab_settings"};
+  document.querySelectorAll(".tab-bar [data-tab]").forEach(btn=>{
+    const key = TAB_KEYS[btn.dataset.tab];
+    const label = btn.querySelector(".tab-label");
+    if(label && key) label.textContent = t(key);
+  });
   $("settingsTitle").textContent = t("tab_settings");
+  $("shopPageTitle").textContent = t("menu_shop");
   $("resumeTitle").textContent = t("home_resume");
   $("homeNote").textContent = t("home_note");
   if(typeof renderResume === "function") renderResume();
@@ -1146,8 +1171,29 @@ function setLang(lang){
     refreshLevelsData().then(()=>{ if(typeof renderShop==="function") renderShop(); if(typeof updateSetupPreview==="function") updateSetupPreview(); }).catch(()=>{});
   }
 }
-function openSettings(){ $("settingsOverlay").classList.add("show"); }
-function closeSettings(){ $("settingsOverlay").classList.remove("show"); }
+// Navigation entre les 4 pages du menu du bas (Jouer/Boutique/Favoris/Réglages) : une vraie page
+// plein écran chacune, pas une fenêtre qui s'ouvre par-dessus — même principe que Home/Setup/Game.
+const TOP_SCREENS = {home:"homeScreen", shop:"shopScreen", favorites:"favoritesScreen", settings:"settingsScreen"};
+function showScreen(name){
+  Object.entries(TOP_SCREENS).forEach(([key,id])=>{
+    const el = $(id); if(!el) return;
+    el.style.display = (key===name) ? "flex" : "none";
+  });
+  const setupEl = $("setupScreen"); if(setupEl) setupEl.style.display = "none";
+  const gameEl = $("gameScreen"); if(gameEl) gameEl.style.display = "none";
+  document.querySelectorAll(".tab-bar [data-tab]").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.tab===name);
+  });
+  if(name==="shop") renderShop();
+  if(name==="favorites") renderFavoritesList();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll(".tab-bar [data-tab]").forEach(btn=>{
+  btn.onclick = () => showScreen(btn.dataset.tab);
+});
+showScreen("home"); // état initial : accueil actif, cohérent avec l'affichage par défaut du CSS
+function openSettings(){ showScreen("settings"); }
+function closeSettings(){ showScreen("home"); }
 document.querySelectorAll(".sheet-overlay").forEach(ov=>{
   ov.addEventListener("click", function(e){ if(e.target === this) this.classList.remove("show"); });
 });
@@ -1196,11 +1242,6 @@ function resumeGame(){
 $("btnHomePlay").onclick = goToSetup;
 $("btnHomeResume").onclick = resumeGame;
 $("btnSetupBack").onclick = goToHome;
-$("tabPlay").onclick = function(){ closeSettings(); };
-$("tabShop").onclick = function(){ closeSettings(); openShop(); };
-$("tabFav").onclick = function(){ closeSettings(); openFavorites(); };
-$("tabSettings").onclick = openSettings;
-$("btnCloseSettings").onclick = closeSettings;
 $("btnSideRate").onclick = openAppStoreReview;
 $("btnShowIntro").onclick = function(){ closeSettings(); $("onboardingOverlay").classList.add("show"); };
 document.querySelectorAll("#langSelect button").forEach(b=>{
@@ -1231,8 +1272,8 @@ function updateAdvancedSummary(){
   el.textContent = `${packs} pack${packs>1?"s":""} · ${acc} accessoire${acc>1?"s":""} · ${lim} limite${lim>1?"s":""} · défi ${cd} · partie ${selectedSessionMin} min`;
 }
 
-function openShop(){ $("shopOverlay").classList.add("show"); }
-function closeShop(){ $("shopOverlay").classList.remove("show"); }
+function openShop(){ showScreen("shop"); }
+function closeShop(){ showScreen("home"); }
 $("btnOpenShop").onclick = openShop;
 function ownedPackTypes(){
   const list = [
@@ -1952,15 +1993,23 @@ async function startGame(resume){
     if(resume.sessionCounts) sessionCounts = resume.sessionCounts;
     if(resume.currentPlayer) currentPlayer = resume.currentPlayer;
     if(typeof resume.sessionTimeLeft==="number" && resume.sessionTimeLeft>0) sessionTimeLeft = resume.sessionTimeLeft;
+    if(resume.nude) settings.nude = true;
+    if(resume.level5Warned) level5Warned = true;
     levelTimeLeft=Math.floor(sessionTimeLeft/Math.max(1,6-currentLevel));
   }
   saveGameProgress();
   $("setupScreen").style.display="none"; $("gameScreen").style.display="flex";
   document.querySelectorAll(".mode-btn").forEach(b=>b.classList.toggle("active",b.dataset.mode===currentMode));
   updateUI(); updateTimers(); startSessionTimer(); updateLevelInfo(); updateHistory(); updateNudeUI();
-  if(currentLevel===5){
+  // BUG corrigé : "Reprendre" rouvrait systématiquement la modale "On est nus ?" et l'avertissement
+  // niveau 5, même si le joueur les avait déjà validées avant de quitter — on ne les affiche que
+  // si elles n'avaient pas déjà été vues (nude / level5Warned restaurés depuis la sauvegarde ci-dessus).
+  if(currentLevel===5 && !level5Warned){
     settings.nude=true; updateNudeUI();
     level5Warned=true; openLevel5Modal();
+  } else if(currentLevel===5){
+    settings.nude=true; updateNudeUI();
+    setTimeout(()=>dealNext(true),300);
   } else if(!applyLevelNude()) setTimeout(()=>dealNext(true),300);
   toast("Partie lancée · "+modeLabel());
 }
@@ -2796,8 +2845,8 @@ function showRecap(){
   $("recapOverlay").classList.add("show");
 }
 function closeRecap(){ $("recapOverlay").classList.remove("show"); }
-function openFavorites(){ closeMenu(); renderFavoritesList(); $("favoritesOverlay").classList.add("show"); }
-function closeFavorites(){ $("favoritesOverlay").classList.remove("show"); }
+function openFavorites(){ closeMenu(); showScreen("favorites"); }
+function closeFavorites(){ showScreen("home"); }
 function openWheel(){ $("wheelOverlay").classList.add("show"); $("wheelResult").textContent="Touche Lancer"; }
 function closeWheel(){
   $("wheelOverlay").classList.remove("show");

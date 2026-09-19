@@ -526,7 +526,7 @@
   <div class="page-head"><h1 id="shopPageTitle">Boutique</h1></div>
   <div class="page-content">
     <div id="shopList"></div>
-    <p class="hint">Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack (achat réel à brancher ensuite — bouton de test ci-dessus en attendant). Les packs thématiques (Sensoriel, BDSM avancé, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.</p>
+    <p class="hint">Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack via achat intégré. Les packs thématiques (Sensoriel, BDSM avancé, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.</p>
   </div>
   <nav class="tab-bar" aria-label="Navigation principale">
     <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span class="tab-label">Jouer</span></button>
@@ -1437,7 +1437,7 @@ function renderShop(){
     } else if(prereqMissing){
       unlockCell = `<button class="btn-unlock-sm" disabled title="Débloque d'abord le niveau ${prereqId.replace('niveau_','')}">🔒</button>`;
     } else {
-      unlockCell = `<button class="btn-unlock-sm" data-unlock="${id}" title="Débloquer (test)">🔓</button>`;
+      unlockCell = `<button class="btn-unlock-sm" data-unlock="${id}" title="Débloquer">🔓</button>`;
     }
     return `<div class="level-tile ${owned?"owned":"locked"}" data-pack-row="${id}">
       <div class="level-tile-num">${owned?"":"🔒"} ${num}</div>
@@ -1466,7 +1466,7 @@ function renderShop(){
 
   const aftercareNote = `<div class="aftercare-note">☕ Aftercare (${CAT.base_aftercare.count} défis) — toujours inclus, jamais payant</div>`;
 
-  const resetBtn = anyOwned ? `<button class="ghost-btn" id="btnResetPurchases">↺ Réinitialiser les achats-tests</button>` : "";
+  const resetBtn = (anyOwned && !(window.RCBridge && window.RCBridge.isNative())) ? `<button class="ghost-btn" id="btnResetPurchases">↺ Réinitialiser les achats-tests</button>` : "";
   const restoreBox = `
     <div class="shop-tools" style="margin-top:14px">${resetBtn}<button class="ghost-btn" id="btnRestorePurchases">↻ Restaurer mes achats</button></div>
     <p class="hint" id="restoreHint" style="display:none">

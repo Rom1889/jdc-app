@@ -2031,10 +2031,13 @@ function startChallengeTimer(){
       $("challengeType").textContent=(lastChallenge?lastChallenge.type:"Défi")+" • "+players[currentPlayer].name+" continue";
     }
     if(timeLeft<=0){
+      // BUG corrigé : le temps écoulé enchaînait directement sur une nouvelle carte
+      // sans jamais laisser valider le défi en cours (Réussi/Échec/Passer). On arrête
+      // juste le chrono et on laisse la carte affichée — les boutons restent actifs
+      // (challengeLive reste true), c'est au joueur de trancher.
       stopChallengeTimer();
       playGong();
-      toast("Temps écoulé");
-      setTimeout(()=>dealNext(false),800);
+      toast("Temps écoulé — valide le défi ci-dessous");
     }
   },1000);
 }

@@ -526,7 +526,7 @@
   <div class="page-head"><h1 id="shopPageTitle">Boutique</h1></div>
   <div class="page-content">
     <div id="shopList"></div>
-    <p class="hint">Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack via achat intégré. Les packs thématiques (Sensoriel, BDSM avancé, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.</p>
+    <p class="hint">Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack via achat intégré. Les packs thématiques (Sensoriel, Ambiance, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.</p>
   </div>
   <nav class="tab-bar" aria-label="Navigation principale">
     <button data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.1C1 8.3 3.2 4.5 6.9 4.5c2 0 3.6 1.1 5.1 3 1.5-1.9 3.1-3 5.1-3 3.7 0 5.9 3.8 4.4 7.4C19.5 16.4 12 21 12 21z"/></svg><span class="tab-label">Jouer</span></button>
@@ -623,8 +623,8 @@
       <button data-level="1" class="active">1<small>Connexion</small></button>
       <button data-level="2">2<small>Tension</small></button>
       <button data-level="3">3<small>Sensualité</small></button>
-      <button data-level="4">4<small>Stimulation</small></button>
-      <button data-level="5">5<small>Acte complet</small></button>
+      <button data-level="4">4<small>Intensité</small></button>
+      <button data-level="5">5<small>Fusion</small></button>
     </div>
   </section>
 
@@ -785,7 +785,7 @@
 <div class="overlay" id="level5Modal">
   <div class="setup-card nude-modal">
     <div class="nude-modal-ico">💥</div>
-    <h2>Niveau 5 · Acte complet</h2>
+    <h2>Niveau 5 · Fusion</h2>
     <p>Le palier le plus intense. Rappel : le safe word et vos limites cochées restent actifs à tout moment.<br>On y va à votre rythme.</p>
     <button class="main-btn btn-primary" onclick="closeLevel5Modal()">On est prêts</button>
   </div>
@@ -1229,7 +1229,7 @@ function renderResume(){
   // pas le niveau de départ choisi en config — sinon "Reprendre" ment sur où il ramène.
   const progress = loadGameProgress();
   const displayLevel = (progress && progress.currentLevel) || p.startLevel || 1;
-  const lvlName = {1:"Connexion",2:"Tension",3:"Sensualité",4:"Stimulation",5:"Acte complet"}[displayLevel] || "";
+  const lvlName = {1:"Connexion",2:"Tension",3:"Sensualité",4:"Intensité",5:"Fusion"}[displayLevel] || "";
   const dur = p.challengeDuration ? (p.challengeDuration>=60 ? Math.round(p.challengeDuration/60)+" min" : p.challengeDuration+" s") : "";
   const TT = window.T || (x=>x);
   $("resumeSummary").textContent = [ (p.names[1]||TT("Joueur 1"))+" & "+(p.names[2]||TT("Joueur 2")), TT(MODE_LABELS[p.mode||"duo"]||"Duo"), TT("Niveau")+" "+displayLevel+(lvlName?" · "+TT(lvlName):""), dur ].filter(Boolean).join(" · ");
@@ -1301,7 +1301,7 @@ function renderPacksList(){
 const ACC_ICO={lubrifiant:"💧",sextoy:"📳",menottes:"🔗",bandeau:"🙈",plumes:"🪶",bougie:"🕯️",glace:"🧊",huile:"🧴",fouet:"👋",pinces:"🖇️",baillon:"🤐",collar:"📿",plug:"🔸",rings:"⭕",harnais:"♠️",restrain:"⛓️",comestible:"🍯",musique:"🎵",couverture:"🛏️"};
 function initLists(){
   const accIco=ACC_ICO;
-  const ACC_GROUP_LABEL = {sensoriel:"Sensoriel & douceur", ambiance:"Ambiance", jeux_legers:"Jeux légers", bdsm_avance:"BDSM avancé"};
+  const ACC_GROUP_LABEL = {sensoriel:"Sensoriel & douceur", ambiance:"Ambiance", jeux_legers:"Jeux légers", bdsm_avance:"Jeux avancés"};
   const grouped = {sensoriel:[], ambiance:[], jeux_legers:[], bdsm_avance:[], _autre:[]};
   allAccessories.forEach(a=>{
     const packId = ACC_TO_PACK[a.id];
@@ -1383,7 +1383,7 @@ function applySavedPrefs(){
     if($("soloActorSelect")) $("soloActorSelect").style.display = currentMode==="solo" ? "flex" : "none";
   }
   if(p.soloActor){ soloActor=p.soloActor; document.querySelectorAll("#soloActorSelect button").forEach(b=>b.classList.toggle("active", +b.dataset.actor===p.soloActor)); }
-  if(p.startLevel){ const nm={1:"Connexion",2:"Tension",3:"Sensualité",4:"Stimulation",5:"Acte complet"}[p.startLevel]; if($("startLevelName") && nm) $("startLevelName").textContent=nm; }
+  if(p.startLevel){ const nm={1:"Connexion",2:"Tension",3:"Sensualité",4:"Intensité",5:"Fusion"}[p.startLevel]; if($("startLevelName") && nm) $("startLevelName").textContent=nm; }
   if(typeof renderResume==="function") renderResume();
   if(p.startLevel && isLevelOwned(p.startLevel)){
     settings.startLevel=p.startLevel;
@@ -1410,7 +1410,7 @@ function renderShop(){
   if(!el || !window.PackManager) return;
   const CAT = window.PackManager.CATALOG;
   const anyOwned = Object.keys(CAT).some(id=>!CAT[id].free && window.PackManager.isPurchased(id));
-  const themeIco = {theme_sensoriel:"💧",theme_ambiance:"🎵",theme_jeux_legers:"🙈",theme_bdsm_avance:"⛓️",theme_photo_video:"📷",theme_qacte:"💥",theme_exterieur:"🛋️"};
+  const themeIco = {theme_sensoriel:"💧",theme_ambiance:"🎵",theme_jeux_legers:"🙈",theme_bdsm_avance:"🎭",theme_photo_video:"📷",theme_qacte:"💥",theme_exterieur:"🛋️"};
 
   // --- Mégapack : bannière "tout débloquer" ---
   const megaOwned = window.PackManager.isPurchased("megapack");
@@ -1422,7 +1422,7 @@ function renderShop(){
     </div>`;
 
   // --- Niveaux : bande compacte de 5 tuiles ---
-  // Niveau 5 (Acte complet) ne peut être acheté qu'après le niveau 4 (Stimulation) —
+  // Niveau 5 (Fusion) ne peut être acheté qu'après le niveau 4 (Intensité) —
   // évite de vendre le niveau le plus explicite à quelqu'un qui n'a pas encore le 4.
   const levelIds = ["niveau_1","niveau_2","niveau_3","niveau_4","niveau_5"];
   const levelStrip = `<div class="level-strip">` + levelIds.map(id=>{
@@ -1451,7 +1451,7 @@ function renderShop(){
   const themeGrid = `<div class="theme-grid">` + themeIds.map(id=>{
     const meta = CAT[id];
     const owned = window.PackManager.isPurchased(id);
-    const name = id.replace(/^theme_/,"").replace(/_/g," ");
+    const name = id==="theme_bdsm_avance" ? "jeux avances" : id.replace(/^theme_/,"").replace(/_/g," ");
     return `<div class="theme-tile ${owned?"owned":"locked"}" data-pack-row="${id}">
       <div class="theme-ico">${owned?"":"🔒 "}${themeIco[id]||"✨"}</div>
       <div class="theme-name">${name}</div>
@@ -2447,7 +2447,7 @@ function updateLevelInfo(){
   const total=sessionCounts.success+sessionCounts.fail+sessionCounts.skip;
   $("levelInfo").textContent="Niveau "+currentLevel+" / 5 · "+modeLabel()+" · "+ACT_LABEL[eveningAct()]+" · "+total+" défi"+(total>1?"s":"")+" joué"+(total>1?"s":"");
   if($("modePill")) $("modePill").textContent = modeLabel();
-  if($("sheetLevelName")){ const nm={1:"Connexion",2:"Tension",3:"Sensualité",4:"Stimulation",5:"Acte complet"}[currentLevel]||""; $("sheetLevelName").textContent = "Niveau "+currentLevel+(nm?" · "+nm:""); }
+  if($("sheetLevelName")){ const nm={1:"Connexion",2:"Tension",3:"Sensualité",4:"Intensité",5:"Fusion"}[currentLevel]||""; $("sheetLevelName").textContent = "Niveau "+currentLevel+(nm?" · "+nm:""); }
 }
 function updateSessionCounter(){ updateLevelInfo(); }
 function updateUI(){

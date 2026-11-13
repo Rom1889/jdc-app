@@ -56,8 +56,8 @@
   add("Connexion","Connection","Verbindung","Conexión");
   add("Tension","Tension","Spannung","Tensión");
   add("Sensualité","Sensuality","Sinnlichkeit","Sensualidad");
-  add("Stimulation","Stimulation","Stimulation","Estimulación");
-  add("Acte complet","Full act","Voller Akt","Acto completo");
+  add("Intensité","Intensity","Intensität","Intensidad");
+  add("Fusion","Fusion","Fusion","Fusión");
   add("Options avancées","Advanced options","Erweiterte Optionen","Opciones avanzadas");
   add("Packs, accessoires, limites, durées","Packs, accessories, limits, durations","Packs, Accessoires, Grenzen, Dauer","Packs, accesorios, límites, duraciones");
   add("Types de défis affichés","Challenge types shown","Angezeigte Aufgabentypen","Tipos de retos mostrados");
@@ -112,10 +112,10 @@
 
   // ---------- Boutique ----------
   add("Contenu additionnel","Additional content","Zusätzliche Inhalte","Contenido adicional");
-  add("Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack (achat réel à brancher ensuite — bouton de test ci-dessus en attendant). Les packs thématiques (Sensoriel, BDSM avancé, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.",
-      "Levels 1-3 and Aftercare are always free. The rest unlocks pack by pack. Theme packs (Sensory, Advanced BDSM, Photo…) apply to every level you own.",
-      "Stufe 1-3 und Aftercare sind immer kostenlos. Der Rest wird Pack für Pack freigeschaltet. Themenpacks (Sinnlich, BDSM, Foto…) gelten für alle Stufen, die du besitzt.",
-      "Niveles 1-3 y Aftercare siempre gratis. El resto se desbloquea pack a pack. Los packs temáticos (Sensorial, BDSM avanzado, Foto…) se aplican a todos los niveles que posees.");
+  add("Niveaux 1-3 et Aftercare toujours gratuits, jamais payants (tu peux quand même décocher Aftercare des types de défis affichés si tu ne veux pas en voir). Le reste se débloque pack par pack via achat intégré. Les packs thématiques (Sensoriel, Ambiance, Photo...) s'appliquent à tous les niveaux possédés, pas un seul en particulier.",
+      "Levels 1-3 and Aftercare are always free. The rest unlocks pack by pack. Theme packs (Sensory, Ambience, Photo…) apply to every level you own.",
+      "Stufe 1-3 und Aftercare sind immer kostenlos. Der Rest wird Pack für Pack freigeschaltet. Themenpacks (Sinnlich, Ambiente, Foto…) gelten für alle Stufen, die du besitzt.",
+      "Niveles 1-3 y Aftercare siempre gratis. El resto se desbloquea pack a pack. Los packs temáticos (Sensorial, Ambiente, Foto…) se aplican a todos los niveles que posees.");
   add("Niveaux","Levels","Stufen","Niveles");
   add("Packs à thème","Theme packs","Themenpacks","Packs temáticos");
   add("Débloqué","Unlocked","Freigeschaltet","Desbloqueado");
@@ -131,7 +131,8 @@
   add("sensoriel","sensory","sinnlich","sensorial");
   add("ambiance","ambience","Ambiente","ambiente");
   add("jeux legers","light games","leichte Spiele","juegos ligeros");
-  add("bdsm avance","advanced bdsm","BDSM fortgeschritten","bdsm avanzado");
+  add("jeux avances","advanced play","fortgeschrittene Spiele","juegos avanzados");
+  add("Jeux avancés","Advanced play","Fortgeschrittene Spiele","Juegos avanzados");
   add("photo video","photo video","Foto Video","foto vídeo");
   add("qacte","question + act","Frage + Akt","pregunta + acto");
   add("exterieur","places","Orte","lugares");
@@ -254,7 +255,7 @@
   add("À partir d'ici, on est à poil.","From here on, clothes come off.","Ab hier seid ihr nackt.","A partir de aquí, sin ropa.");
   add("Plus de défis avec des habits.","No more challenges with clothes on.","Keine Aufgaben mehr mit Kleidung.","No más retos con ropa.");
   add("C'est noté","Got it","Verstanden","Entendido");
-  add("Niveau 5 · Acte complet","Level 5 · Full act","Stufe 5 · Voller Akt","Nivel 5 · Acto completo");
+  add("Niveau 5 · Fusion","Level 5 · Fusion","Stufe 5 · Fusion","Nivel 5 · Fusión");
   add("Le palier le plus intense. Rappel : le safe word et vos limites cochées restent actifs à tout moment.","The most intense stage. Reminder: the safe word and your checked limits stay active at all times.","Die intensivste Stufe. Zur Erinnerung: Safeword und eure Grenzen gelten jederzeit.","La etapa más intensa. Recordatorio: la palabra de seguridad y vuestros límites siguen activos en todo momento.");
   add("On y va à votre rythme.","Go at your own pace.","Geht in eurem Tempo.","Vamos a vuestro ritmo.");
   add("On est prêts","We're ready","Wir sind bereit","Estamos listos");
